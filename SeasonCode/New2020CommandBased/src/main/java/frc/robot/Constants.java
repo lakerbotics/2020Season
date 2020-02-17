@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import edu.wpi.first.wpilibj.DutyCycleEncoder; 
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -20,4 +21,9 @@ public final class Constants {
     public static int frontLeft = 2;
     public static int backRight = 1;
     public static int backLeft = 3;
+
+    public static int frontIndexer = 6;
+    public static int backIndexer = 7;
+
+    public static DutyCycleEncoder leftDriveEncoder = new DutyCycleEncoder(0);
 }

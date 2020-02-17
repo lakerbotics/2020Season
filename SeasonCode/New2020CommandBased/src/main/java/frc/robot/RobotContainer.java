@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 
@@ -20,10 +21,12 @@ import edu.wpi.first.wpilibj.Joystick;
 
 // Subsystems imports
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IndexerIntakeSubsystem;
 
 // Command imports
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.LimelightTrackingDrive;
+import frc.robot.commands.IndexerIntakeDrive;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,6 +37,7 @@ import frc.robot.commands.LimelightTrackingDrive;
 public class RobotContainer {
 
   private final DriveTrain m_drivetrain;
+  private final IndexerIntakeSubsystem m_indexer;
 
   private final Joystick Joy;
 
@@ -43,12 +47,16 @@ public class RobotContainer {
   public RobotContainer() {
     
     m_drivetrain = new DriveTrain();
+    m_indexer = new IndexerIntakeSubsystem();
     Joy = new Joystick(0);
 
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
 
     configureButtonBindings();
+
+    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -59,8 +67,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     final JoystickButton sideButton2 = new JoystickButton(Joy, 2);
+    final JoystickButton topButton3 = new JoystickButton(Joy, 3);
+    final JoystickButton topButton5 = new JoystickButton(Joy, 5);
 
     sideButton2.whileHeld(new LimelightTrackingDrive(m_drivetrain));
+
+    topButton5.whileHeld(new IndexerIntakeDrive(m_indexer, false));
+    topButton3.whileHeld(new IndexerIntakeDrive(m_indexer, true));
   }
 
 

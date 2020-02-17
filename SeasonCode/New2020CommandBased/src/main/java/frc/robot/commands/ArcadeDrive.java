@@ -11,6 +11,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveTrain;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 
 public class ArcadeDrive extends CommandBase {
@@ -20,12 +22,16 @@ public class ArcadeDrive extends CommandBase {
   private final DoubleSupplier m_x;
   private final DoubleSupplier m_z;
 
+  private DutyCycleEncoder motorEncoder;
+
 
   public ArcadeDrive(DriveTrain drivetrain, DoubleSupplier x, DoubleSupplier z) {
    
     m_drivetrain = drivetrain;
     m_x = x;
     m_z = z;
+
+    //motorEncoder = Constants.
 
     addRequirements(m_drivetrain);
   }
@@ -39,6 +45,7 @@ public class ArcadeDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.drive(throttleMixerY() *-1, throttleMixerZ());
+    //CameraServer.getInstance().
   }
 
   // Called once the command ends or is interrupted.
