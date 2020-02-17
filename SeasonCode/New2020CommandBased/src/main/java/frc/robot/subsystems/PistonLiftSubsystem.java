@@ -13,36 +13,33 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class PistonLift extends SubsystemBase {
+public class PistonLiftSubsystem extends SubsystemBase {
 
-  private DoubleSolenoid gigantor;         // Primary Lift
-  private DoubleSolenoid miniGigantor;    // Inverted Pusher
+  private DoubleSolenoid piston1;
+  private DoubleSolenoid piston2;
 
-  public PistonLift() {
+  public PistonLiftSubsystem() {
 
     // Remove and change these parameters
 
     int forwardChannel = 0;
     int reverseChannel = 0;
 
-    gigantor = new DoubleSolenoid(forwardChannel, reverseChannel);
-    miniGigantor = new DoubleSolenoid(forwardChannel, reverseChannel);
+    piston1 = new DoubleSolenoid(forwardChannel, reverseChannel);
+    piston2 = new DoubleSolenoid(forwardChannel, reverseChannel);
 
   }
 
-  public void gigantorExtend(){
-    gigantor.set(DoubleSolenoid.Value.kForward);
-  }
-  public void gigantorRetract(){
-    gigantor.set(DoubleSolenoid.Value.kReverse);
+  public void extend() {
+    piston1.set(Value.kForward);
+    piston2.set(Value.kForward);
   }
 
-  public void miniGigantorEtend(){
-    miniGigantor.set(DoubleSolenoid.Value.kForward);
-  }
-  public void miniGigantorRetract(){
-    miniGigantor.set(DoubleSolenoid.Value.kReverse);
+  public void retract() {
+    piston1.set(Value.kReverse);
+    piston2.set(Value.kReverse);
   }
 
 

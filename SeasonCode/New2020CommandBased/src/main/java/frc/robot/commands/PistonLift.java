@@ -1,5 +1,3 @@
-
-
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -11,27 +9,22 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.PistonLiftSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 
-import frc.robot.subsystems.IndexerIntakeSubsystem;
 
-
-public class IndexerIntakeDrive extends CommandBase {
+public class PistonLift extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final IndexerIntakeSubsystem m_intake;
+  private final PistonLiftSubsystem p_PistonLift;
+  private Timer timer;
 
-  private double speed;
-
-  public IndexerIntakeDrive(IndexerIntakeSubsystem intake, boolean r) {
+  public PistonLift(PistonLiftSubsystem pistonLift) {
    
-    m_intake = intake;
-    speed = .5;
+    p_PistonLift = pistonLift;
+    timer = new Timer()
 
-    if (r) {
-      speed *= -1;
-    }
-
-    addRequirements(m_intake);
+    addRequirements(p_PistonLift);
   }
 
   // Called when the command is initially scheduled.
@@ -42,18 +35,24 @@ public class IndexerIntakeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.drive(speed);
+    p_PistonLift.extend();
+
+    Timer.delay(3);
+
+    p_PistonLift.retract();
+
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.drive(0);
+    //
   }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
   }
-
 }

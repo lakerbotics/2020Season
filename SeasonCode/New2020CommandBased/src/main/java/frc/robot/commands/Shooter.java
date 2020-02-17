@@ -1,3 +1,5 @@
+
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -10,19 +12,25 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.PistonLift;
+import frc.robot.subsystems.ShooterSubsystem;;
 
 
-public class GigantorLift extends CommandBase {
+public class Shooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
-  private final PistonLift p_PistonLift;
+  private final ShooterSubsystem m_shooter;
 
-  public GigantorLift(PistonLift pistonLift) {
+  private final double targetVelocity;
+  private double speed;
+  private boolean flag;
+
+  public Shooter(ShooterSubsystem shooter) {
    
-    p_PistonLift = pistonLift;
+    targetVelocity = 100; // Number subject to testing
+    speed = 0;
+    m_shooter = shooter;
 
-    addRequirements(p_PistonLift);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -33,32 +41,33 @@ public class GigantorLift extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    p_PistonLift.gigantorExtend();
-    
-    // TODO: Insert sleep here
-
-    p_PistonLift.gigantorRetract();
-
-    // TODO: Insert sleep here
-
-    p_PistonLift.miniGigantorEtend();
-
-    // TODO: Insert sleep here
-
-    p_PistonLift.miniGigantorRetract();
-
+    m_shooter.drive(bangBang());
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //
+    m_shooter.drive(0);
   }
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
   }
+  
+  public double bangBang() {
+  
+    /* if (encoder.getVelocity > targetVelocity) {
+      speed = 0;
+    }
+    else {
+      speed = voltageSpeedThatIsSlightlyGreaterThanTarget;
+    }
+    */
+
+    // To get the velocity from the encoder, you must be using the phoenix/ctre encoder class (requires talons)
+
+    return speed;
+  }
+
 }

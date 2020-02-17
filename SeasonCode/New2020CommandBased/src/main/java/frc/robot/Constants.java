@@ -25,5 +25,8 @@ public final class Constants {
     public static int frontIndexer = 6;
     public static int backIndexer = 7;
 
+    public static int leftShooter = 8;
+    public static int rightShooter = 9;
+
     public static DutyCycleEncoder leftDriveEncoder = new DutyCycleEncoder(0);
 }
