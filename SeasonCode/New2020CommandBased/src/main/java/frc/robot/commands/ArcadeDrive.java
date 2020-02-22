@@ -44,7 +44,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.drive(throttleMixerY() *-1, throttleMixerZ());
+    m_drivetrain.drive(throttleMixerY() * -1, throttleMixerZ());
     //CameraServer.getInstance().
   }
 
@@ -63,10 +63,10 @@ public class ArcadeDrive extends CommandBase {
   private double throttleMixerY() {
     double YSpeed = m_x.getAsDouble();
     if ((YSpeed > 0.2) | (YSpeed < -0.2)) {
-      return YSpeed*0.9;
+      return YSpeed * 0.9;
     }
     else if ((YSpeed <= 0.2) & (YSpeed >= -0.2)) {
-      return YSpeed*0;
+      return YSpeed * 0;
     }
     else {
       return YSpeed;
@@ -76,10 +76,10 @@ public class ArcadeDrive extends CommandBase {
   private double throttleMixerZ() {
     double ZSpeed = m_z.getAsDouble();
     if ((ZSpeed > 0.2) | (ZSpeed < -0.2)) {
-      return ZSpeed*0.7;
+      return ZSpeed * 0.7;
     }
     else if ((ZSpeed <= 0.2) & (ZSpeed >= -0.2)) {
-      return ZSpeed*0;
+      return ZSpeed * 0;
     }
     else {
       return ZSpeed;

@@ -40,7 +40,7 @@ public class RotationDrive extends CommandBase {
     m_drivetrain = drivetrain;
 
     shaftCurrent = 0; //encoder.getpos
-    shaftTarget = (int)rotations + shaftCurrent;
+    shaftTarget = (int) rotations + shaftCurrent;
 
     addRequirements(m_drivetrain);
   }

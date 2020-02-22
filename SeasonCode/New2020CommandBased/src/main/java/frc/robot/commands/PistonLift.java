@@ -17,12 +17,10 @@ public class PistonLift extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   
   private final PistonLiftSubsystem p_PistonLift;
-  private Timer timer;
 
   public PistonLift(PistonLiftSubsystem pistonLift) {
    
     p_PistonLift = pistonLift;
-    timer = new Timer()
 
     addRequirements(p_PistonLift);
   }

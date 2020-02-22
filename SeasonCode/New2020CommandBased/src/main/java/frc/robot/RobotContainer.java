@@ -8,16 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.cameraserver.CameraServer;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // Connectables
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 // Subsystems imports
 import frc.robot.subsystems.DriveTrain;
@@ -39,6 +37,7 @@ public class RobotContainer {
   private final DriveTrain m_drivetrain;
   private final IndexerIntakeSubsystem m_indexer;
 
+  private final XboxController Xbox;
   private final Joystick Joy;
 
   /**
@@ -48,7 +47,8 @@ public class RobotContainer {
     
     m_drivetrain = new DriveTrain();
     m_indexer = new IndexerIntakeSubsystem();
-    Joy = new Joystick(0);
+    Joy = new Joystick(1);
+    Xbox = new XboxController(0);
 
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
@@ -57,6 +57,7 @@ public class RobotContainer {
 
     CameraServer.getInstance().startAutomaticCapture();
     CameraServer.getInstance().startAutomaticCapture();
+
   }
 
   /**
@@ -74,6 +75,8 @@ public class RobotContainer {
 
     topButton5.whileHeld(new IndexerIntakeDrive(m_indexer, false));
     topButton3.whileHeld(new IndexerIntakeDrive(m_indexer, true));
+
+
   }
 
 

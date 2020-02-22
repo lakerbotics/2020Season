@@ -26,16 +26,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Switch motor controllers from victors to talons
     m_left = new PWMVictorSPX(Constants.leftShooter);
-    m_right = new PWMVictorSPX(Constants.rightShooter);
-    m_right.setInverted(true);
+   // m_right = new PWMVictorSPX(Constants.rightShooter);
+    //m_right.setInverted(true);
 
-    m_shooter = new SpeedControllerGroup(m_left, m_right);
+   // m_shooter = new SpeedControllerGroup(m_left, m_right);
 
   }
 
   public void drive(double speed)
   {
-    m_shooter.set(speed);
+    //m_shooter.set(speed);
+    m_left.set(speed);
   } 
 
   @Override

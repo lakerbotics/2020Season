@@ -20,20 +20,20 @@ public class IndexerIntakeSubsystem extends SubsystemBase {
   private PWMVictorSPX m_back;
   private SpeedControllerGroup m_indexer;
 
-  public IndexerIntakeSubsystem() {
-
+  public IndexerIntakeSubsystem()
+  {
     m_front = new PWMVictorSPX(Constants.frontIndexer);
-    m_back = new PWMVictorSPX(Constants.backIndexer);
-    m_back.setInverted(true);
-    m_indexer = new SpeedControllerGroup(m_front, m_back);
+    //m_back = new PWMVictorSPX(Constants.backIndexer);
+    //m_back.setInverted(true);
+    //m_indexer = new SpeedControllerGroup(m_front, m_back);
 
   }
 
   public void drive(double speed)
   {
 
-    m_indexer.set(speed);
-
+    //m_indexer.set(speed);
+    m_front.set(speed);
   } 
 
   @Override
