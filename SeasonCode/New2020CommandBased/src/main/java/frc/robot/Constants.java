@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static int frontRight = 0;
-    public static int frontLeft = 2;
-    public static int backRight = 1;
-    public static int backLeft = 3;
+    public static int frontRight = 1;
+    public static int frontLeft = 3;
+    public static int backRight = 2;
+    public static int backLeft = 4;
 
-    public static int frontIndexer = 6;
-    public static int backIndexer = 7;
+    public static int bottomIndexer = 5;
+    public static int topIndexer = 6;
 
     public static int leftShooter = 8;
     public static int rightShooter = 9;

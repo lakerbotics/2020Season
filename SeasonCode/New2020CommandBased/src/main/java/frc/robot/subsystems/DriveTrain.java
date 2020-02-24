@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -18,10 +20,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends SubsystemBase {
  
-  private PWMVictorSPX m_frontRight;
-  private PWMVictorSPX m_frontLeft;
-  private PWMVictorSPX m_backRight;
-  private PWMVictorSPX m_backLeft;
+  private WPI_VictorSPX m_frontRight;
+  private WPI_VictorSPX m_frontLeft;
+  private WPI_VictorSPX m_backRight;
+  private WPI_VictorSPX m_backLeft;
 
   private SpeedController m_right;
   private SpeedController m_left;
@@ -33,10 +35,10 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain() {
 
-    m_frontRight = new PWMVictorSPX(Constants.frontRight);
-    m_frontLeft = new PWMVictorSPX(Constants.frontLeft);
-    m_backRight = new PWMVictorSPX(Constants.backRight);
-    m_backLeft = new PWMVictorSPX(Constants.backLeft);
+    m_frontRight = new WPI_VictorSPX(Constants.frontRight);
+    m_frontLeft = new WPI_VictorSPX(Constants.frontLeft);
+    m_backRight = new WPI_VictorSPX(Constants.backRight);
+    m_backLeft = new WPI_VictorSPX(Constants.backLeft);
 
     m_right = new SpeedControllerGroup(m_frontRight, m_backRight);
     m_left = new SpeedControllerGroup(m_frontLeft, m_backLeft);

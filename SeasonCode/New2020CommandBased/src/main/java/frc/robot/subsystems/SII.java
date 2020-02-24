@@ -10,30 +10,43 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IndexerIntakeSubsystem extends SubsystemBase {
+public class SII extends SubsystemBase {
 
-  private PWMVictorSPX m_front;
-  private PWMVictorSPX m_back;
-  private SpeedControllerGroup m_indexer;
+  private WPI_VictorSPX m_IndexerTop;
+  private WPI_VictorSPX m_IndexerBottom;
+  private SpeedControllerGroup m_Indexer;
 
-  public IndexerIntakeSubsystem()
+  private WPI_VictorSPX m_Intake;
+
+  public SII()
   {
-    m_front = new PWMVictorSPX(Constants.frontIndexer);
+
+    // Indexer Setup
+    m_IndexerTop = new WPI_VictorSPX(Constants.topIndexer);
+    m_IndexerBottom = new WPI_VictorSPX(Constants.bottomIndexer);
+    m_IndexerBottom.setInverted(true);
+    m_Indexer = new SpeedControllerGroup(m_IndexerTop, m_IndexerBottom);
+
     //m_back = new PWMVictorSPX(Constants.backIndexer);
     //m_back.setInverted(true);
     //m_indexer = new SpeedControllerGroup(m_front, m_back);
 
   }
 
-  public void drive(double speed)
+  public void indexerDrive(double speed, boolean polarity)
   {
-
-    //m_indexer.set(speed);
-    m_front.set(speed);
+    if (polarity) {
+      m_Indexer.setInverted(true);
+    }
+    else {
+      m_Indexer.setInverted(false);
+    }
+    m_Indexer.set(speed);
+    System.out.println(speed);
   } 
 
   @Override

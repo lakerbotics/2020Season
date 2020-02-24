@@ -14,11 +14,18 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.controller.PIDController;
 
 public class ShooterSubsystem extends SubsystemBase {
  
   private PWMVictorSPX m_left;
   private PWMVictorSPX m_right;
+
+  private VictorSPX victor;
 
   private SpeedControllerGroup m_shooter;
 
@@ -28,7 +35,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_left = new PWMVictorSPX(Constants.leftShooter);
    // m_right = new PWMVictorSPX(Constants.rightShooter);
     //m_right.setInverted(true);
-
    // m_shooter = new SpeedControllerGroup(m_left, m_right);
 
   }

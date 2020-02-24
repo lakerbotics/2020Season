@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj.XboxController;
 
 // Subsystems imports
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IndexerIntakeSubsystem;
+import frc.robot.subsystems.SII;
 
 // Command imports
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.LimelightTrackingDrive;
-import frc.robot.commands.IndexerIntakeDrive;
+import frc.robot.commands.IndexerDrive;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -35,28 +35,30 @@ import frc.robot.commands.IndexerIntakeDrive;
 public class RobotContainer {
 
   private final DriveTrain m_drivetrain;
-  private final IndexerIntakeSubsystem m_indexer;
+  private final SII m_sii;
 
-  private final XboxController Xbox;
   private final Joystick Joy;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
+
   public RobotContainer() {
     
     m_drivetrain = new DriveTrain();
-    m_indexer = new IndexerIntakeSubsystem();
-    Joy = new Joystick(1);
-    Xbox = new XboxController(0);
+    m_sii = new SII();
+
+    Joy = new Joystick(0);
+    //Xbox = new XboxController(0);
 
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
 
     configureButtonBindings();
 
-    CameraServer.getInstance().startAutomaticCapture();
-    CameraServer.getInstance().startAutomaticCapture();
+    // Plug in both cameras to access
+    //CameraServer.getInstance().startAutomaticCapture();
+    //CameraServer.getInstance().startAutomaticCapture();
 
   }
 
@@ -69,12 +71,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     final JoystickButton sideButton2 = new JoystickButton(Joy, 2);
     final JoystickButton topButton3 = new JoystickButton(Joy, 3);
-    final JoystickButton topButton5 = new JoystickButton(Joy, 5);
 
     sideButton2.whileHeld(new LimelightTrackingDrive(m_drivetrain));
+    topButton3.whileHeld(new IndexerDrive(m_sii, Joy, false));
 
-    topButton5.whileHeld(new IndexerIntakeDrive(m_indexer, false));
-    topButton3.whileHeld(new IndexerIntakeDrive(m_indexer, true));
+    System.out.println("Configured");
 
 
   }
