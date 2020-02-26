@@ -1,3 +1,5 @@
+
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -7,35 +9,24 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.SII;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;;
 
-/**
-* An example command that uses an example subsystem.
-*/
-public class IndexerDrive extends CommandBase {
-	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-	private final SII m_subsystem;
-	
+@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
+public class Intake extends CommandBase {
+	private final IntakeSubsystem m_intake;
 	private double speed;
 	private boolean polarity;
-	private Joystick Joy;
 	
-	/**
-	* Creates a new ExampleCommand.
-	*
-	* @param subsystem The subsystem used by this command.
-	*/
-	public IndexerDrive(SII subsystem, Joystick Joy, boolean polarity) {
-		m_subsystem = subsystem;
+	public Intake(IntakeSubsystem intake) {
+		speed = 10;
+		polarity = true;
+		m_intake = intake;
 		
-		this.polarity = polarity;
-		this.Joy = Joy;
-		
-		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(subsystem);
+		addRequirements(m_intake);
 	}
 	
 	// Called when the command is initially scheduled.
@@ -46,16 +37,14 @@ public class IndexerDrive extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		speed = Joy.getX();
-		m_subsystem.indexerDrive(speed, polarity);
+		m_intake.driveIntake(speed, polarity);
 	}
 	
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		m_subsystem.indexerDrive(0, polarity);
+		m_intake.driveIntake(0, false);
 	}
-	
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {

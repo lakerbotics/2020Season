@@ -16,74 +16,74 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 
 public class ArcadeDrive extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
-  private final DriveTrain m_drivetrain;
-  private final DoubleSupplier m_x;
-  private final DoubleSupplier m_z;
-
-  private DutyCycleEncoder motorEncoder;
-
-
-  public ArcadeDrive(DriveTrain drivetrain, DoubleSupplier x, DoubleSupplier z) {
-   
-    m_drivetrain = drivetrain;
-    m_x = x;
-    m_z = z;
-
-    //motorEncoder = Constants.
-
-    addRequirements(m_drivetrain);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_drivetrain.drive(throttleMixerY() * -1, throttleMixerZ());
-    //CameraServer.getInstance().
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_drivetrain.drive(0, 0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  private double throttleMixerY() {
-    double YSpeed = m_x.getAsDouble();
-    if ((YSpeed > 0.2) | (YSpeed < -0.2)) {
-      return YSpeed * 0.9;
-    }
-    else if ((YSpeed <= 0.2) & (YSpeed >= -0.2)) {
-      return YSpeed * 0;
-    }
-    else {
-      return YSpeed;
-    }
-  }
-
-  private double throttleMixerZ() {
-    double ZSpeed = m_z.getAsDouble();
-    if ((ZSpeed > 0.2) | (ZSpeed < -0.2)) {
-      return ZSpeed * 0.7;
-    }
-    else if ((ZSpeed <= 0.2) & (ZSpeed >= -0.2)) {
-      return ZSpeed * 0;
-    }
-    else {
-      return ZSpeed;
-    }
-  }
+	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+	
+	private final DriveTrain m_drivetrain;
+	private final DoubleSupplier m_x;
+	private final DoubleSupplier m_z;
+	
+	private DutyCycleEncoder motorEncoder;
+	
+	
+	public ArcadeDrive(DriveTrain drivetrain, DoubleSupplier x, DoubleSupplier z) {
+		
+		m_drivetrain = drivetrain;
+		m_x = x;
+		m_z = z;
+		
+		//motorEncoder = Constants.
+		
+		addRequirements(m_drivetrain);
+	}
+	
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
+	
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_drivetrain.drive(throttleMixerY() * -1, throttleMixerZ());
+		//CameraServer.getInstance().
+	}
+	
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_drivetrain.drive(0, 0);
+	}
+	
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
+	
+	private double throttleMixerY() {
+		double YSpeed = m_x.getAsDouble();
+		if ((YSpeed > 0.2) | (YSpeed < -0.2)) {
+			return YSpeed * 0.9;
+		}
+		else if ((YSpeed <= 0.2) & (YSpeed >= -0.2)) {
+			return YSpeed * 0;
+		}
+		else {
+			return YSpeed;
+		}
+	}
+	
+	private double throttleMixerZ() {
+		double ZSpeed = m_z.getAsDouble();
+		if ((ZSpeed > 0.2) | (ZSpeed < -0.2)) {
+			return ZSpeed * 0.7;
+		}
+		else if ((ZSpeed <= 0.2) & (ZSpeed >= -0.2)) {
+			return ZSpeed * 0;
+		}
+		else {
+			return ZSpeed;
+		}
+	}
 }
 
