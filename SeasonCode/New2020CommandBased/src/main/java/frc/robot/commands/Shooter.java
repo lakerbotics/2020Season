@@ -20,14 +20,8 @@ public class Shooter extends CommandBase {
   
   private final ShooterSubsystem m_shooter;
 
-  private final double targetVelocity;
-  private double speed;
-  private boolean flag;
-
   public Shooter(ShooterSubsystem shooter) {
    
-    targetVelocity = 100; // Number subject to testing
-    speed = 0;
     m_shooter = shooter;
 
     addRequirements(m_shooter);
@@ -41,13 +35,13 @@ public class Shooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.drive(bangBang());
+    m_shooter.drive(true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.drive(0);
+    m_shooter.drive(false);
   }
   // Returns true when the command should end.
   @Override
@@ -55,19 +49,5 @@ public class Shooter extends CommandBase {
     return false;
   }
   
-  public double bangBang() {
-  
-    /* if (encoder.getVelocity > targetVelocity) {
-      speed = 0;
-    }
-    else {
-      speed = voltageSpeedThatIsSlightlyGreaterThanTarget;
-    }
-    */
-
-    // To get the velocity from the encoder, you must be using the phoenix/ctre encoder class (requires talons)
-
-    return speed;
-  }
 
 }

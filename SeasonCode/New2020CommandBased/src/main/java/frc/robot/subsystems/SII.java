@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,8 +20,10 @@ public class SII extends SubsystemBase {
   private WPI_VictorSPX m_IndexerTop;
   private WPI_VictorSPX m_IndexerBottom;
   private SpeedControllerGroup m_Indexer;
-
   private WPI_VictorSPX m_Intake;
+
+  private TalonSRX m_leftShooter;
+  private TalonSRX m_rightShooter;
 
   public SII()
   {
@@ -28,7 +31,7 @@ public class SII extends SubsystemBase {
     // Indexer Setup
     m_IndexerTop = new WPI_VictorSPX(Constants.topIndexer);
     m_IndexerBottom = new WPI_VictorSPX(Constants.bottomIndexer);
-    m_IndexerBottom.setInverted(true);
+    m_IndexerBottom.setInverted(false);
     m_Indexer = new SpeedControllerGroup(m_IndexerTop, m_IndexerBottom);
 
     //m_back = new PWMVictorSPX(Constants.backIndexer);

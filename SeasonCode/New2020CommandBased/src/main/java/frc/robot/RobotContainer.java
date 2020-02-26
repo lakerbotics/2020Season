@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj.XboxController;
 
 // Subsystems imports
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.SII;
+import frc.robot.subsystems.ShooterSubsystem;
 
 // Command imports
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.LimelightTrackingDrive;
-import frc.robot.commands.IndexerDrive;
+import frc.robot.commands.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -35,9 +35,10 @@ import frc.robot.commands.IndexerDrive;
 public class RobotContainer {
 
   private final DriveTrain m_drivetrain;
-  private final SII m_sii;
+  private final ShooterSubsystem m_shooter;
 
   private final Joystick Joy;
+  private final XboxController Xbox;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -46,10 +47,10 @@ public class RobotContainer {
   public RobotContainer() {
     
     m_drivetrain = new DriveTrain();
-    m_sii = new SII();
+    m_shooter = new ShooterSubsystem();
 
     Joy = new Joystick(0);
-    //Xbox = new XboxController(0);
+    Xbox = new XboxController(1);
 
 
     m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
@@ -73,7 +74,7 @@ public class RobotContainer {
     final JoystickButton topButton3 = new JoystickButton(Joy, 3);
 
     sideButton2.whileHeld(new LimelightTrackingDrive(m_drivetrain));
-    topButton3.whileHeld(new IndexerDrive(m_sii, Joy, false));
+    topButton3.whileHeld(new Shooter(m_shooter));
 
     System.out.println("Configured");
 
