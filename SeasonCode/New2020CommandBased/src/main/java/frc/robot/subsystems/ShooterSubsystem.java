@@ -10,43 +10,47 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.controller.PIDController;
 
 public class ShooterSubsystem extends SubsystemBase {
-	
-	private PWMVictorSPX m_left;
-	private PWMVictorSPX m_right;
-	
-	private VictorSPX victor;
-	
-	private SpeedControllerGroup m_shooter;
-	
-	public ShooterSubsystem() {
-		
-		// Switch motor controllers from victors to talons
-		m_left = new PWMVictorSPX(Constants.leftShooter);
-		// m_right = new PWMVictorSPX(Constants.rightShooter);
-		//m_right.setInverted(true);
-		// m_shooter = new SpeedControllerGroup(m_left, m_right);
-		
-	}
-	
-	public void drive(double speed)
-	{
-		//m_shooter.set(speed);
-		m_left.set(speed);
-	} 
-	
-	@Override
-	public void periodic() {
-		
-	}
+
+  private TalonSRX m_left;
+  private TalonSRX m_right;
+
+  public ShooterSubsystem() {
+
+    m_left = new TalonSRX(7);
+    m_right = new TalonSRX(8);
+
+    m_left.selectProfileSlot(0, 0);
+		m_left.config_kF(0, 0.248); //0.248
+		m_left.config_kP(0, 0);
+		m_left.config_kI(0, 0);
+    m_left.config_kD(0, 0);
+
+    m_right.setInverted(true);
+    m_right.follow(m_left);
+
+  }
+
+  public void drive(boolean flag)
+  {
+
+    if (flag) {
+      m_left.set(ControlMode.Position, -4096);
+      System.out.println(m_left.getSelectedSensorVelocity());
+    }
+    else {
+      m_left.set(ControlMode.PercentOutput, 0);
+    }
+
+  }
+
+  @Override
+  public void periodic() {
+
+  }
 }
