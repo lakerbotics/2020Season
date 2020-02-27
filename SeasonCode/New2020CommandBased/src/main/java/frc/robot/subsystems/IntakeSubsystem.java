@@ -7,35 +7,30 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-
 public class IntakeSubsystem extends SubsystemBase {
-	private WPI_VictorSPX m_intake;
+	private WPI_VictorSPX intake;
 	
 	public IntakeSubsystem(){
-		m_intake = new WPI_VictorSPX(Constants.mainIntake);
+		intake = new WPI_VictorSPX(Constants.mainIntake);
 	}
 	
 	public void driveIntake(double speed, boolean polarity){
 		if (polarity) {
-			m_intake.setInverted(true);
+			intake.setInverted(true);
 		}
 		else {
-			m_intake.setInverted(false);
+			intake.setInverted(false);
 		}
-		m_intake.set(speed);
+		intake.set(speed);
 		System.out.println(speed);
-		
 	}
 	
 	@Override
 	public void periodic() {
-		
-		
 	}
-	
-	
 }

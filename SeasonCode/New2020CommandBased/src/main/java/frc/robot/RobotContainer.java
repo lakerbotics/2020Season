@@ -8,23 +8,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.cameraserver.CameraServer;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // Connectables
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 // Subsystems imports
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.SII;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
 
 // Command imports
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.LimelightTrackingDrive;
-import frc.robot.commands.IndexerDrive;
+import frc.robot.commands.Indexer;
 
 /**
 * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -34,8 +31,8 @@ import frc.robot.commands.IndexerDrive;
 */
 public class RobotContainer {
 	
-	private final DriveTrain m_drivetrain;
-	private final SII m_sii;
+	private final DriveTrainSubsystem drivetrain;
+	private final IndexerSubsystem indexer;
 	
 	private final Joystick Joy;
 	
@@ -45,14 +42,14 @@ public class RobotContainer {
 	
 	public RobotContainer() {
 		
-		m_drivetrain = new DriveTrain();
-		m_sii = new SII();
+		drivetrain = new DriveTrainSubsystem();
+		indexer = new IndexerSubsystem();
 		
 		Joy = new Joystick(0);
 		//Xbox = new XboxController(0);
 		
 		
-		m_drivetrain.setDefaultCommand(new ArcadeDrive(m_drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
+		drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
 		
 		configureButtonBindings();
 		
@@ -72,8 +69,8 @@ public class RobotContainer {
 			final JoystickButton sideButton2 = new JoystickButton(Joy, 2);
 			final JoystickButton topButton3 = new JoystickButton(Joy, 3);
 			
-			sideButton2.whileHeld(new LimelightTrackingDrive(m_drivetrain));
-			topButton3.whileHeld(new IndexerDrive(m_sii, Joy, false));
+			sideButton2.whileHeld(new LimelightTrackingDrive(drivetrain));
+			topButton3.whileHeld(new Indexer(indexer, Joy, false));
 			
 			System.out.println("Configured");
 			
@@ -90,7 +87,7 @@ public class RobotContainer {
 		/**
 		public Command getAutonomousCommand() {
 			// An ExampleCommand will run in autonomous
-			//return m_autoCommand; # Not defined
+			// return autoCommand; # Not defined
 		}
 		*/
 		

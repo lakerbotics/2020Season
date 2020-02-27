@@ -11,38 +11,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.controller.PIDController;
+// import edu.wpi.first.wpilibj.SpeedControllerGroup;
+// import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
 	
-	private PWMVictorSPX m_left;
-	private PWMVictorSPX m_right;
+	private PWMVictorSPX left; // Master
+
+	@SuppressWarnings("unused")
+	private PWMVictorSPX right; // Slave
 	
-	private VictorSPX victor;
-	
-	private SpeedControllerGroup m_shooter;
+	// private VictorSPX victor;
+	// private SpeedControllerGroup shooter;
 	
 	public ShooterSubsystem() {
-		
-		// Switch motor controllers from victors to talons
-		m_left = new PWMVictorSPX(Constants.leftShooter);
-		// m_right = new PWMVictorSPX(Constants.rightShooter);
-		//m_right.setInverted(true);
-		// m_shooter = new SpeedControllerGroup(m_left, m_right);
-		
+		// TODO Switch motor controllers from victors to talons
+		left = new PWMVictorSPX(Constants.leftShooter);
 	}
 	
-	public void drive(double speed)
-	{
-		//m_shooter.set(speed);
-		m_left.set(speed);
+	public void drive(double speed) {
+		left.set(speed);
 	} 
 	
 	@Override

@@ -8,81 +8,72 @@
 package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+// import edu.wpi.first.wpilibj.DutyCycleEncoder;
+// import edu.wpi.first.cameraserver.CameraServer;
 
-import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
-
-public class ArcadeDrive extends CommandBase {
-	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class ArcadeDrive extends CommandBase {	
+	private final DriveTrainSubsystem driveTrain;
+	private final DoubleSupplier x;
+	private final DoubleSupplier z;
 	
-	private final DriveTrain m_drivetrain;
-	private final DoubleSupplier m_x;
-	private final DoubleSupplier m_z;
+	// TODO Setup drivetrain encoder
+	// private DutyCycleEncoder motorEncoder;
 	
-	private DutyCycleEncoder motorEncoder;
-	
-	
-	public ArcadeDrive(DriveTrain drivetrain, DoubleSupplier x, DoubleSupplier z) {
+	public ArcadeDrive(DriveTrainSubsystem drivetrain, DoubleSupplier x, DoubleSupplier z) {
+		this.driveTrain = drivetrain;
+		this.x = x;
+		this.z = z;
 		
-		m_drivetrain = drivetrain;
-		m_x = x;
-		m_z = z;
-		
-		//motorEncoder = Constants.
-		
-		addRequirements(m_drivetrain);
+		addRequirements(drivetrain);
 	}
 	
-	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
 	}
 	
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_drivetrain.drive(throttleMixerY() * -1, throttleMixerZ());
+		driveTrain.drive(-1 * throttleMixerY(), throttleMixerZ());
 		//CameraServer.getInstance().
 	}
 	
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		m_drivetrain.drive(0, 0);
+		driveTrain.drive(0, 0);
 	}
 	
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 	
 	private double throttleMixerY() {
-		double YSpeed = m_x.getAsDouble();
-		if ((YSpeed > 0.2) | (YSpeed < -0.2)) {
-			return YSpeed * 0.9;
+		double xSpeed = x.getAsDouble();
+		if ((xSpeed > 0.2) | (xSpeed < -0.2)) {
+			return xSpeed * 0.9;
 		}
-		else if ((YSpeed <= 0.2) & (YSpeed >= -0.2)) {
-			return YSpeed * 0;
+		else if ((xSpeed <= 0.2) & (xSpeed >= -0.2)) {
+			return xSpeed * 0;
 		}
 		else {
-			return YSpeed;
+			return xSpeed;
 		}
 	}
 	
 	private double throttleMixerZ() {
-		double ZSpeed = m_z.getAsDouble();
-		if ((ZSpeed > 0.2) | (ZSpeed < -0.2)) {
-			return ZSpeed * 0.7;
+		double zSpeed = z.getAsDouble();
+		if ((zSpeed > 0.2) | (zSpeed < -0.2)) {
+			return zSpeed * 0.7;
 		}
-		else if ((ZSpeed <= 0.2) & (ZSpeed >= -0.2)) {
-			return ZSpeed * 0;
+		else if ((zSpeed <= 0.2) & (zSpeed >= -0.2)) {
+			return zSpeed * 0;
 		}
 		else {
-			return ZSpeed;
+			return zSpeed;
 		}
 	}
 }
