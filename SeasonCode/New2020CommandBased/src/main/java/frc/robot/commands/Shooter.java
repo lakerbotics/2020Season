@@ -17,11 +17,11 @@ import frc.robot.subsystems.ShooterSubsystem;;
 
 public class Shooter extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
+
   private final ShooterSubsystem m_shooter;
 
   public Shooter(ShooterSubsystem shooter) {
-   
+
     m_shooter = shooter;
 
     addRequirements(m_shooter);
@@ -48,6 +48,6 @@ public class Shooter extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-  
+
 
 }

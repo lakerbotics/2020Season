@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class ShooterSubsystem extends SubsystemBase {
- 
+
   private TalonSRX m_left;
   private TalonSRX m_right;
 
@@ -30,10 +30,10 @@ public class ShooterSubsystem extends SubsystemBase {
 		m_left.config_kP(0, 0);
 		m_left.config_kI(0, 0);
     m_left.config_kD(0, 0);
-    
+
     m_right.setInverted(true);
     m_right.follow(m_left);
-    
+
   }
 
   public void drive(boolean flag)
@@ -46,11 +46,11 @@ public class ShooterSubsystem extends SubsystemBase {
     else {
       m_left.set(ControlMode.PercentOutput, 0);
     }
-    
-  } 
+
+  }
 
   @Override
   public void periodic() {
-    
+
   }
 }

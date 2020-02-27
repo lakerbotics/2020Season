@@ -27,11 +27,11 @@ import frc.robot.commands.LimelightTrackingDrive;
 import frc.robot.commands.Shooter;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
+* This class is where the bulk of the robot should be declared.  Since Command-based is a
+* "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+* periodic methods (other than the scheduler calls).  Instead, the structure of the robot
+* (including subsystems, commands, and button mappings) should be declared here.
+*/
 public class RobotContainer {
 
   private final DriveTrain m_drivetrain;
@@ -45,7 +45,7 @@ public class RobotContainer {
    */
 
   public RobotContainer() {
-    
+
     m_drivetrain = new DriveTrain();
     m_shooter = new ShooterSubsystem();
 
@@ -87,7 +87,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  
+
   /**
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
