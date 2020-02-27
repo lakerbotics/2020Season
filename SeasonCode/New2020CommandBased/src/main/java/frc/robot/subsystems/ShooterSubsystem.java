@@ -26,7 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_right = new TalonSRX(8);
 
     m_left.selectProfileSlot(0, 0);
-		m_left.config_kF(0, 0.248); //0.25
+		m_left.config_kF(0, 0.248); //0.248
 		m_left.config_kP(0, 0);
 		m_left.config_kI(0, 0);
     m_left.config_kD(0, 0);
