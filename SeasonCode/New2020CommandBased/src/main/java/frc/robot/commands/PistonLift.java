@@ -7,48 +7,39 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PistonLiftSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
-
-public class PistonLift extends CommandBase {
-	@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-	
-	private final PistonLiftSubsystem p_PistonLift;
+public class PistonLift extends CommandBase {	
+	private final PistonLiftSubsystem pistonLift;
 	
 	public PistonLift(PistonLiftSubsystem pistonLift) {
+		this.pistonLift = pistonLift;
 		
-		p_PistonLift = pistonLift;
-		
-		addRequirements(p_PistonLift);
+		addRequirements(pistonLift);
 	}
 	
-	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
 	}
 	
-	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		p_PistonLift.extend();
+		pistonLift.extend();
 		
+		// TODO Make piston actuate on command not automatically
 		Timer.delay(3);
 		
-		p_PistonLift.retract();
+		pistonLift.retract();
 		
 	}
 	
 	
-	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		//
 	}
 	
-	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
 		return false;

@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import java.sql.Time;
-
 //import javax.management.timer.Timer;
 import edu.wpi.first.wpilibj.Timer ;
 
@@ -290,7 +288,7 @@ public class Robot extends TimedRobot {
           // move to left
           m_frontRight.set(-0.6);
           m_frontLeft.set(-0.6);
-          myTimer.delay(Math.abs(Targetx)/accuracyDivisor);
+          Timer.delay(Math.abs(Targetx)/accuracyDivisor);
           System.out.println("MOVE RIGHT");
 
         
@@ -300,12 +298,12 @@ public class Robot extends TimedRobot {
           // move to right
           m_frontRight.set(0.55);
           m_frontLeft.set(0.55);
-          myTimer.delay(Math.abs(Targetx)/accuracyDivisor);
+          Timer.delay(Math.abs(Targetx)/accuracyDivisor);
           System.out.println("MOVE LEFT");
           
         }
 
-        myTimer.delay(0.5);
+        Timer.delay(0.5);
       }
       x_aligning = false;
       System.out.println("X Aligning mode EXIT");

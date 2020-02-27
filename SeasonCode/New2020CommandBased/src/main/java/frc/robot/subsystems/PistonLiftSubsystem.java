@@ -7,11 +7,10 @@
 
 package frc.robot.subsystems;
 
+// TODO Piston port values
+// import frc.robot.Constants;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -41,7 +40,6 @@ public class PistonLiftSubsystem extends SubsystemBase {
 		piston1.set(Value.kReverse);
 		piston2.set(Value.kReverse);
 	}
-	
 	
 	@Override
 	public void periodic() {
