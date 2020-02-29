@@ -25,10 +25,10 @@ public final class Constants {
 	public static final int bottomIndexer = 5;
 	public static final int topIndexer = 6;
 	
-	public static final int mainIntake = 7;
+	public static final int mainIntake = 9;
 	
-	public static final int leftShooter = 8;
-	public static final int rightShooter = 9;
+	public static final int leftShooter = 7;
+	public static final int rightShooter = 8;
 	
 	public static final DutyCycleEncoder leftDriveEncoder = new DutyCycleEncoder(0);
 }

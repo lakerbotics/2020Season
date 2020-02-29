@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
 			intake.setInverted(false);
 		}
 		intake.set(speed);
-		System.out.println(speed);
+		//System.out.println(speed);
 	}
 	
 	@Override

@@ -9,16 +9,23 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.IndexerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 // import Timer
 
-public class Indexer extends CommandBase {
+public class IndexerGroupA extends CommandBase {
 	@SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 	private final IndexerSubsystem indexer;
 
+	private double speed;
 	private boolean polarity;
+	private DigitalInput limiter;
 
-	public Indexer(IndexerSubsystem indexer) {
+	public IndexerGroupA(IndexerSubsystem indexer) {
 		this.indexer = indexer;
+		limiter = new DigitalInput(0);
+
 		addRequirements(indexer);
 	}
 
@@ -28,7 +35,25 @@ public class Indexer extends CommandBase {
 
 	@Override
 	public void execute() {
-		indexer.indexerDrive(0.5, true);
+
+		if (!limiter.get()) {
+			
+			indexer.indexerDrive(0.55, true);
+
+			Timer.delay(0.13); //0.15
+			indexer.indexerDrive(0.01, false);
+			Timer.delay(1.1);
+			this.cancel();
+
+			
+		} else {
+			indexer.indexerDrive(0, false);
+		}
+
+		/*
+		 * if counter = 5 intake.setpolarity() to be reversed (shoots outwards)
+		 */
+
 	}
 
 	@Override

@@ -27,6 +27,8 @@ public class LimelightTrackingDrive extends CommandBase {
 	double distance_error;
 	double steering_adjust;
 	double distance_adjust;
+	double KpAim;
+	double KpDistance;
 
 	private double left;
 	private double right;
@@ -34,7 +36,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	private double ty;
 	
 	double Kp = -0.015;
-	double min_aim_command = 0.36;
+	double min_aim_command = 0.5; //0.36
 	
 	public LimelightTrackingDrive(DriveTrainSubsystem drivetrain) {
 		
@@ -46,6 +48,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		
 	}
 	
 	// Called every time the scheduler runs while the command is scheduled.
@@ -72,40 +75,44 @@ public class LimelightTrackingDrive extends CommandBase {
 		heading_error = -tx;
 		steering_adjust = 0;
 		
-		if (tx > 1.0) {
+		if (tx > 1.4) {
 			steering_adjust = Kp * heading_error + min_aim_command;
 		}
-		else if (tx < 1.0) {
+		else if (tx < -0.6) {
 			steering_adjust = Kp * heading_error - min_aim_command;
 		}
 		
 		left = steering_adjust;
 		right = -1 * steering_adjust;
 		
-		if ( (Math.abs(1 - Math.abs(tx))) > 1 ) {
+		if ( (Math.abs(2 - Math.abs(tx))) > 1 ) {
 			drivetrain.tankDrive(left, right);
 		}
 	}
 	
-	// TODO Implement Y tracking
-	public void trackTargetY() {
+	public void trackTarget() {
+		tx = table.getEntry("tx").getDouble(0.0);
 		ty = table.getEntry("ty").getDouble(0.0);
-		
-		heading_error = -ty;
-		steering_adjust = 0;
-		
-		if (ty > 1.0) {
-			steering_adjust = Kp*heading_error + min_aim_command;
-		}
-		else if (ty < 1.0) {
-			steering_adjust = Kp*heading_error - min_aim_command;
-		}
-		
-		left = steering_adjust;
-		right = -1 * steering_adjust;
-		
-		if ( (Math.abs(1 - Math.abs(ty))) > 1) {
-			drivetrain.tankDrive(left, right);
-		}
+
+		KpAim = -0.1;
+		KpDistance = -0.1;
+
+		heading_error = -tx;
+        distance_error = -ty;
+        steering_adjust = 0.0f;
+
+        if (tx > 1.0)
+        {
+                steering_adjust = KpAim*heading_error - min_aim_command;
+        }
+        else if (tx < -1.0)
+        {
+                steering_adjust = KpAim*heading_error + min_aim_command;
+        }
+
+        distance_adjust = KpDistance * distance_error;
+
+        left += steering_adjust + distance_adjust;
+        right -= steering_adjust + distance_adjust;
 	}
 }

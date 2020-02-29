@@ -25,7 +25,6 @@ public class IndexerSubsystem extends SubsystemBase {
 		// Indexer Setup
 		indexerTop = new WPI_VictorSPX(Constants.topIndexer);
 		indexerBottom = new WPI_VictorSPX(Constants.bottomIndexer);
-		indexerBottom.setInverted(true);
 		indexer = new SpeedControllerGroup(indexerTop, indexerBottom);  
 	}
 	

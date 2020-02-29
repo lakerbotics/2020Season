@@ -22,8 +22,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
 
-    m_left = new TalonSRX(7);
-    m_right = new TalonSRX(8);
+    m_left = new TalonSRX(Constants.leftShooter);
+    m_right = new TalonSRX(Constants.rightShooter);
 
     m_left.selectProfileSlot(0, 0);
 		m_left.config_kF(0, 0.248); //0.248
@@ -41,7 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     if (flag) {
       m_left.set(ControlMode.Position, -4096);
-      System.out.println(m_left.getSelectedSensorVelocity());
+      //System.out.println(m_left.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Shooter Vel", m_left.getSelectedSensorVelocity());
     }
     else {
       m_left.set(ControlMode.PercentOutput, 0);
@@ -52,5 +53,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
+  }
+
+  public int getSpeed() {
+    return m_left.getSelectedSensorVelocity();
   }
 }

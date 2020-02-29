@@ -9,11 +9,16 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 // import edu.wpi.first.wpilibj.DutyCycleEncoder;
 // import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.subsystems.DriveTrainSubsystem;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class ArcadeDrive extends CommandBase {	
 	private final DriveTrainSubsystem driveTrain;
@@ -54,7 +59,7 @@ public class ArcadeDrive extends CommandBase {
 	private double throttleMixerY() {
 		double xSpeed = x.getAsDouble();
 		if ((xSpeed > 0.2) | (xSpeed < -0.2)) {
-			return xSpeed * 0.9;
+			return xSpeed * 0.7;
 		}
 		else if ((xSpeed <= 0.2) & (xSpeed >= -0.2)) {
 			return xSpeed * 0;
@@ -67,7 +72,7 @@ public class ArcadeDrive extends CommandBase {
 	private double throttleMixerZ() {
 		double zSpeed = z.getAsDouble();
 		if ((zSpeed > 0.2) | (zSpeed < -0.2)) {
-			return zSpeed * 0.7;
+			return zSpeed * 0.8;
 		}
 		else if ((zSpeed <= 0.2) & (zSpeed >= -0.2)) {
 			return zSpeed * 0;
@@ -75,6 +80,6 @@ public class ArcadeDrive extends CommandBase {
 		else {
 			return zSpeed;
 		}
+
 	}
 }
-

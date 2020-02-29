@@ -48,5 +48,10 @@ public class Shooter extends CommandBase {
     return false;
   }
 
-
+  public boolean isReady() {
+    if (Math.abs(m_shooter.getSpeed()) > 35000) {
+      return true;
+    }
+    return false;
+  }
 }

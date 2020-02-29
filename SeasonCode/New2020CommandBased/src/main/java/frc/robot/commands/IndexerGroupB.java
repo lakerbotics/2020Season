@@ -8,17 +8,26 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import edu.wpi.first.wpilibj.Timer;
 // import Timer
 
-public class Indexer extends CommandBase {
+public class IndexerGroupB extends CommandBase {
 	@SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 	private final IndexerSubsystem indexer;
+    private final Shooter shooter;
 
+	private double speed;
 	private boolean polarity;
 
-	public Indexer(IndexerSubsystem indexer) {
-		this.indexer = indexer;
+	public IndexerGroupB(IndexerSubsystem indexer, Shooter shooter) {
+        this.indexer = indexer;
+        this.shooter = shooter;
+
 		addRequirements(indexer);
 	}
 
@@ -28,7 +37,21 @@ public class Indexer extends CommandBase {
 
 	@Override
 	public void execute() {
-		indexer.indexerDrive(0.5, true);
+
+        /**
+         * 1. Get shooter up to speed
+         * 2. Enable indexer
+         * 3. Keep showing until no longer pressed
+         */
+
+        if (shooter.isReady()) {
+            indexer.indexerDrive(0.5, true);
+            
+        }
+        else {
+            indexer.indexerDrive(0, true);
+        }
+
 	}
 
 	@Override

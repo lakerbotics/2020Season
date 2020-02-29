@@ -8,12 +8,20 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.fasterxml.jackson.core.json.DupDetector;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Encoder;
+
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
 
 public class DriveTrainSubsystem extends SubsystemBase {
 	
@@ -26,6 +34,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	private SpeedController left;
 	
 	private final DifferentialDrive drive;
+
+	private final DutyCycleEncoder encoder = new DutyCycleEncoder(2);
+	private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75, 0.75);
+	private final ProfiledPIDController m_controller = new ProfiledPIDController(1.2, 1, 1, m_constraints);
 
 	// TODO Implement PID into drivetrain
 	
@@ -40,7 +52,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 		
 		drive = new DifferentialDrive(left, right);
-		
 	}
 	
 	public void drive(double x, double z)
@@ -51,6 +62,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		drive.tankDrive(leftSpeed, rightSpeed);
 	}
+
 	
 	@Override
 	public void periodic() {

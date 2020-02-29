@@ -18,10 +18,10 @@ public class Intake extends CommandBase {
 	private double speed;
 	private boolean polarity;
 	
-	public Intake(IntakeSubsystem intake) {
+	public Intake(IntakeSubsystem intake, boolean polarity) {
 		this.intake = intake;
-		speed = 10;
-		polarity = true;
+		speed = 1.0;
+		this.polarity = polarity;
 
 		addRequirements(intake);
 	}
