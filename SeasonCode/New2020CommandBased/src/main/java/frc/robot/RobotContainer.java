@@ -26,6 +26,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Indexer;
 import frc.robot.commands.LimelightTrackingDrive;
+import frc.robot.commands.RotationDrive;
 import frc.robot.commands.Shooter;
 import frc.robot.commands.IndexerGroupA;
 import frc.robot.commands.IndexerGroupB;
@@ -84,11 +85,14 @@ public class RobotContainer {
 		final JoystickButton topButton4 = new JoystickButton(Joy, 4);
 		final JoystickButton topButton5 = new JoystickButton(Joy, 5);
 		final JoystickButton trigger = new JoystickButton(Joy, 1);
+		final JoystickButton topButton6 = new JoystickButton(Joy, 6);
 
 		sideButton2.whileHeld(new LimelightTrackingDrive(drivetrain));
 
 		topButton3.whileHeld(new ParallelCommandGroup(new Intake(intake, true), new IndexerGroupA(indexer)));
 		
+		topButton6.whileHeld(new RotationDrive(drivetrain, 2));
+
 		Shooter shooterCMD = new Shooter(shooter);
 		trigger.whileHeld(new ParallelCommandGroup(shooterCMD, new IndexerGroupB(indexer, shooterCMD)));
 

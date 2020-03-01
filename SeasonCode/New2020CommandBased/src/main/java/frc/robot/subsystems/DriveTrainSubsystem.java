@@ -35,8 +35,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	
 	private final DifferentialDrive drive;
 
-	private final DutyCycleEncoder encoder = new DutyCycleEncoder(2);
-	private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75, 0.75);
+
+	private double goal;
+	private final Encoder m_encoder;
+	private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(1.75, 0.1);
 	private final ProfiledPIDController m_controller = new ProfiledPIDController(1.2, 1, 1, m_constraints);
 
 	// TODO Implement PID into drivetrain
@@ -52,6 +54,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 		
 		drive = new DifferentialDrive(left, right);
+
+		m_encoder = new Encoder(5, 4);
+
+
+
 	}
 	
 	public void drive(double x, double z)
@@ -63,6 +70,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		drive.tankDrive(leftSpeed, rightSpeed);
 	}
 
+	public void setTarget(double rotations) {
+		m_encoder.reset();
+		m_encoder.setDistancePerPulse(Math.PI * 7.9/360);;
+		this.goal = rotations;
+		System.out.print("INIT HERE");
+	}
+
+	public void rotationDrive() {
+		m_controller.setGoal(this.goal);
+		left.set(m_controller.calculate(m_encoder.getDistance()));
+		right.set(m_controller.calculate(m_encoder.getDistance()));
+
+		System.out.println(m_encoder.getDistance());
+	}
 	
 	@Override
 	public void periodic() {
