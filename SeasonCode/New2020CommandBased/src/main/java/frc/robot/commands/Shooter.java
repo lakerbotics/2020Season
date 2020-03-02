@@ -1,57 +1,74 @@
 
-
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.							*/
+/* Open Source Software - may be modified and shared by FRC teams. The code		*/
+/* must be accompanied by the FIRST BSD license file in the root directory of	*/
+/* the project.																	*/
+/*------------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.ShooterSubsystem;;
 
-
 public class Shooter extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+	private final int SPEED_THRESHOLD = 350000;
+	private final ShooterSubsystem shooter;
 
-  private final ShooterSubsystem m_shooter;
+	/**
+	 * Activates the shooter on or off
+	 * 
+	 * @param shooter Shooter subsystem
+	 */
+	public Shooter(ShooterSubsystem shooter) {
+		this.shooter = shooter;
 
-  public Shooter(ShooterSubsystem shooter) {
+		addRequirements(shooter);
+	}
 
-    m_shooter = shooter;
+	/**
+	 * Called when the command is initially scheduled
+	 */
+	@Override
+	public void initialize() {
+	}
 
-    addRequirements(m_shooter);
-  }
+	/**
+	 * Called everytime the scheduler runs while command is scheduled
+	 */
+	@Override
+	public void execute() {
+		shooter.drive(true);
+	}
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+	/**
+	 * Called when the command ends or is interrupted
+	 */
+	@Override
+	public void end(boolean interrupted) {
+		shooter.drive(false);
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_shooter.drive(true);
-  }
+	/**
+	 * Returns true when command is ended
+	 */
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_shooter.drive(false);
-  }
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-
-  public boolean isReady() {
-    if (Math.abs(m_shooter.getSpeed()) > 35000) {
-      return true;
-    }
-    return false;
-  }
+	/**
+	 * Determines if the shooter is ready to fire if the shooter speed is over
+	 * threshold
+	 * 
+	 * @return If shooter is ready or not
+	 */
+	public boolean isReady() {
+		if (Math.abs(shooter.getSpeed()) > SPEED_THRESHOLD) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

@@ -1,32 +1,29 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.							*/
+/* Open Source Software - may be modified and shared by FRC teams. The code		*/
+/* must be accompanied by the FIRST BSD license file in the root directory of	*/
+/* the project.																	*/
+/*------------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveTrainSubsystem;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class LimelightTrackingDrive extends CommandBase {
 
 	private final DriveTrainSubsystem drivetrain;
-	
+
 	// Limelight
-	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-	NetworkTableEntry limelight_tx = table.getEntry("tx");
+	NetworkTable limeLight = NetworkTableInstance.getDefault().getTable("limelight");
 
 	// Proportional tracking
-	double heading_error;
-	double distance_error;
-	double steering_adjust;
-	double distance_adjust;
+	double headingError;
+	double distanceError;
+	double steeringAdjust;
+	double distanceAdjust;
 	double KpAim;
 	double KpDistance;
 
@@ -34,85 +31,101 @@ public class LimelightTrackingDrive extends CommandBase {
 	private double right;
 	private double tx;
 	private double ty;
-	
-	double Kp = -0.015;
-	double min_aim_command = 0.5; //0.36
-	
+
+	private final double KP = -0.015;
+	private final double MIN_AIM_COMMAND = 0.5; // 0.36
+
+	/**
+	 * Controls drivetrain and aligns robot with LimeLight crosshair
+	 * 
+	 * @param drivetrain Drivetrain subsystem
+	 */
 	public LimelightTrackingDrive(DriveTrainSubsystem drivetrain) {
-		
 		this.drivetrain = drivetrain;
-		
+
 		addRequirements(drivetrain);
 	}
-	
-	// Called when the command is initially scheduled.
+
+	/**
+	 * Called when the command is initially scheduled
+	 */
 	@Override
 	public void initialize() {
-		
+
 	}
-	
-	// Called every time the scheduler runs while the command is scheduled.
+
+	/**
+	 * Called everytime the scheduler runs while command is scheduled
+	 */
 	@Override
 	public void execute() {
 		trackTargetX();
 	}
-	
-	// Called once the command ends or is interrupted.
+
+	/**
+	 * Called when the command ends or is interrupted
+	 */
 	@Override
 	public void end(boolean interrupted) {
 		drivetrain.tankDrive(0, 0);
 	}
-	
-	// Returns true when the command should end.
+
+	/**
+	 * Returns true when command is ended
+	 */
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
+	/**
+	 * Rotates robot with tank drive to correct X offset
+	 */
 	public void trackTargetX() {
-		tx = table.getEntry("tx").getDouble(0.0);
-		
-		heading_error = -tx;
-		steering_adjust = 0;
-		
+		tx = limeLight.getEntry("tx").getDouble(0.0);
+
+		headingError = -tx;
+		steeringAdjust = 0;
+
 		if (tx > 1.4) {
-			steering_adjust = Kp * heading_error + min_aim_command;
+			steeringAdjust = KP * headingError + MIN_AIM_COMMAND;
 		}
 		else if (tx < -0.6) {
-			steering_adjust = Kp * heading_error - min_aim_command;
+			steeringAdjust = KP * headingError - MIN_AIM_COMMAND;
 		}
-		
-		left = steering_adjust;
-		right = -1 * steering_adjust;
-		
-		if ( (Math.abs(2 - Math.abs(tx))) > 1 ) {
+
+		left = steeringAdjust;
+		right = -1 * steeringAdjust;
+
+		if ((Math.abs(2 - Math.abs(tx))) > 1) {
 			drivetrain.tankDrive(left, right);
 		}
 	}
-	
+
+	/**
+	 * Moves & Rotates the robot with tank drive to correct X and Y offset
+	 */
 	public void trackTarget() {
-		tx = table.getEntry("tx").getDouble(0.0);
-		ty = table.getEntry("ty").getDouble(0.0);
+		tx = limeLight.getEntry("tx").getDouble(0.0);
+		ty = limeLight.getEntry("ty").getDouble(0.0);
 
 		KpAim = -0.1;
 		KpDistance = -0.1;
 
-		heading_error = -tx;
-        distance_error = -ty;
-        steering_adjust = 0.0f;
+		headingError = -tx;
+		distanceError = -ty;
+		steeringAdjust = 0.0f;
 
-        if (tx > 1.0)
-        {
-                steering_adjust = KpAim*heading_error - min_aim_command;
-        }
-        else if (tx < -1.0)
-        {
-                steering_adjust = KpAim*heading_error + min_aim_command;
-        }
+		if (tx > 1.0) {
+			steeringAdjust = KpAim * headingError - MIN_AIM_COMMAND;
+		}
+		else if (tx < -1.0) {
+			steeringAdjust = KpAim * headingError + MIN_AIM_COMMAND;
+		}
 
-        distance_adjust = KpDistance * distance_error;
+		distanceAdjust = KpDistance * distanceError;
 
-        left += steering_adjust + distance_adjust;
-        right -= steering_adjust + distance_adjust;
+		left += steeringAdjust + distanceAdjust;
+		right -= steeringAdjust + distanceAdjust;
 	}
 }

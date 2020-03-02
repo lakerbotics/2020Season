@@ -1,61 +1,76 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.							*/
+/* Open Source Software - may be modified and shared by FRC teams. The code 	*/
+/* must be accompanied by the FIRST BSD license file in the root directory of	*/
+/* the project.																	*/
+/*------------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 public class ShooterSubsystem extends SubsystemBase {
 
-  private TalonSRX m_left;
-  private TalonSRX m_right;
+	private TalonSRX left;
+	private TalonSRX right;
 
-  public ShooterSubsystem() {
+	/**
+	 * Creates new shooter subsystem
+	 */
+	public ShooterSubsystem() {
 
-    m_left = new TalonSRX(Constants.leftShooter);
-    m_right = new TalonSRX(Constants.rightShooter);
+		// Master-Slave relationship ->
+		// https://en.wikipedia.org/wiki/Master/slave_(technology)
+		left = new TalonSRX(Constants.leftShooter); // Master
+		right = new TalonSRX(Constants.rightShooter); // Slave
 
-    m_left.selectProfileSlot(0, 0);
-		m_left.config_kF(0, 0.248); //0.248
-		m_left.config_kP(0, 0);
-		m_left.config_kI(0, 0);
-    m_left.config_kD(0, 0);
+		left.selectProfileSlot(0, 0);
+		left.config_kF(0, 0.248); // 0.248
+		left.config_kP(0, 0);
+		left.config_kI(0, 0);
+		left.config_kD(0, 0);
 
-    m_right.setInverted(true);
-    m_right.follow(m_left);
+		right.setInverted(true);
+		right.follow(left);
 
-  }
+	}
 
-  public void drive(boolean flag)
-  {
+	/**
+	 * Runs the shooter at max speed.
+	 * 
+	 * @param activate Determines whether or not to enable shooter. If activate,
+	 *                 shooter will run, otherwise, shooter will stop.
+	 */
+	public void drive(boolean activate) {
 
-    if (flag) {
-      m_left.set(ControlMode.Position, -4096);
-      //System.out.println(m_left.getSelectedSensorVelocity());
-      SmartDashboard.putNumber("Shooter Vel", m_left.getSelectedSensorVelocity());
-    }
-    else {
-      m_left.set(ControlMode.PercentOutput, 0);
-    }
+		if (activate) {
+			left.set(ControlMode.Position, -4096);
+			SmartDashboard.putNumber("Shooter Vel", left.getSelectedSensorVelocity());
+		}
+		else {
+			left.set(ControlMode.PercentOutput, 0);
+		}
 
-  }
+	}
 
-  @Override
-  public void periodic() {
+	/**
+	 * Gets the speed of shooter
+	 * 
+	 * @return Shooter speed
+	 */
+	public int getSpeed() {
+		return left.getSelectedSensorVelocity();
+	}
 
-  }
-
-  public int getSpeed() {
-    return m_left.getSelectedSensorVelocity();
-  }
+	/**
+	 * Called once per scheduler run
+	 */
+	@Override
+	public void periodic() {
+	}
 }

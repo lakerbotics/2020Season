@@ -1,55 +1,62 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.							*/
+/* Open Source Software - may be modified and shared by FRC teams. The code		*/
+/* must be accompanied by the FIRST BSD license file in the root directory of	*/
+/* the project.																	*/
+/*------------------------------------------------------------------------------*/
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 /**
-* An example command that uses an example subsystem.
-*/
+ * An example command that uses an example subsystem.
+ */
 public class RotationDrive extends CommandBase {
-	@SuppressWarnings("unused")
-	private final DriveTrainSubsystem m_subsystem;
-	
+	private final DriveTrainSubsystem drivetrain;
+	double rotations;
+
 	/**
-	* Creates a new ExampleCommand.
-	*
-	* @param subsystem The subsystem used by this command.
-	*/
-	double rotations; 
-
-	public RotationDrive(DriveTrainSubsystem subsystem, double rotations) {
-		m_subsystem = subsystem;
-
+	 * Drives the robot a set amount of rotations autonomously.
+	 * 
+	 * @param drivetrain Drivetrain subsystem
+	 * @param rotations  Rotations to move robot. Distance = Wheel Circumference *
+	 *   Rotations
+	 */
+	public RotationDrive(DriveTrainSubsystem drivetrain, double rotations) {
+		this.drivetrain = drivetrain;
 		this.rotations = rotations;
-		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(subsystem);
+
+		addRequirements(drivetrain);
 	}
-	
-	// Called when the command is initially scheduled.
+
+	/**
+	 * Called when the command is initially scheduled
+	 */
 	@Override
 	public void initialize() {
-		m_subsystem.setTarget(this.rotations);
+		drivetrain.setTarget(this.rotations);
 	}
-	
-	// Called every time the scheduler runs while the command is scheduled.
+
+	/**
+	 * Called everytime the scheduler runs while command is scheduled
+	 */
 	@Override
 	public void execute() {
-		m_subsystem.rotationDrive();
+		drivetrain.rotationDrive();
 	}
-	
-	// Called once the command ends or is interrupted.
+
+	/**
+	 * Called when the command ends or is interrupted
+	 */
 	@Override
 	public void end(boolean interrupted) {
 	}
-	
-	// Returns true when the command should end.
+
+	/**
+	 * Returns true when command is ended
+	 */
 	@Override
 	public boolean isFinished() {
 		return false;
