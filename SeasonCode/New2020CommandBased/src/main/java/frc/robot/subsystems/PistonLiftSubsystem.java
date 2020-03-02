@@ -42,6 +42,14 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	}
 
 	/**
+	 * Checks if the pistons are extended
+	 * @return If pistons are extended or not
+	 */
+	public boolean isExtended() {
+		return pistonLeft.get() == Value.kForward;
+	}
+
+	/**
 	 * Called once per scheduler run
 	 */
 	@Override

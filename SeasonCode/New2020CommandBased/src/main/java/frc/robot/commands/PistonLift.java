@@ -7,27 +7,19 @@
 
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PistonLiftSubsystem;
 
 public class PistonLift extends CommandBase {
 	private final PistonLiftSubsystem pistonLift;
-	private BooleanSupplier activate;
-	private boolean extended;
-
+	
 	/**
 	 * Activates pneumatics. Both pistons operate in unison
 	 * 
 	 * @param pistonLift PistonLight subsystem
-	 * @param activate   Joystick button value
 	 */
-	public PistonLift(PistonLiftSubsystem pistonLift, BooleanSupplier activate) {
+	public PistonLift(PistonLiftSubsystem pistonLift) {
 		this.pistonLift = pistonLift;
-		this.activate = activate;
-
-		this.extended = false;
 
 		addRequirements(pistonLift);
 	}
@@ -44,13 +36,11 @@ public class PistonLift extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		if (activate.getAsBoolean() == true) {
-			if (!extended) {
-				pistonLift.extend();
-			}
-			else {
-				pistonLift.retract();
-			}
+		if (!pistonLift.isExtended()) {
+			pistonLift.extend();
+		}
+		else {
+			pistonLift.retract();
 		}
 	}
 

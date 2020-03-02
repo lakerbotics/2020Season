@@ -50,10 +50,8 @@ public class RobotContainer {
 		pistonLift = new PistonLiftSubsystem();
 
 		Joy = new Joystick(0);
-		// Xbox = new XboxController(0);
 
 		drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
-		// intake.setDefaultCommand(new Intake(intake, true));
 
 		configureButtonBindings();
 
@@ -86,6 +84,11 @@ public class RobotContainer {
 
 		// TOP BUTTON 3 -> Intake and Indexer
 		topButton3.whileHeld(new ParallelCommandGroup(new Intake(intake, true), new IndexerGroupA(indexer)));
+
+		// TOP BUTTON 4 -> Piston lift
+		// Set to whenReleased because having whileHeld would tell pistons go up and
+		// down hundreds of times within a short period of time.
+		topButton4.whenReleased(new PistonLift(pistonLift));
 
 		// TOP BUTTON 5 -> Indexer
 		topButton5.whileHeld(new Indexer(indexer));
