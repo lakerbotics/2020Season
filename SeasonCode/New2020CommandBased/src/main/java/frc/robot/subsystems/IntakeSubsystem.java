@@ -1,25 +1,34 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------*/
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.							*/
+/* Open Source Software - may be modified and shared by FRC teams. The code		*/
+/* must be accompanied by the FIRST BSD license file in the root directory of	*/
+/* the project.																	*/
+/*------------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 	private WPI_VictorSPX intake;
-	
-	public IntakeSubsystem(){
+
+	/**
+	 * Creates new intake subsystem
+	 */
+	public IntakeSubsystem() {
 		intake = new WPI_VictorSPX(Constants.mainIntake);
 	}
-	
-	public void driveIntake(double speed, boolean polarity){
+
+	/**
+	 * Moves intake at given speed and direction
+	 * 
+	 * @param speedSpeed of intake
+	 * @param polarity Direction of intake (boolean)
+	 */
+	public void driveIntake(double speed, boolean polarity) {
 		if (polarity) {
 			intake.setInverted(true);
 		}
@@ -27,9 +36,11 @@ public class IntakeSubsystem extends SubsystemBase {
 			intake.setInverted(false);
 		}
 		intake.set(speed);
-		//System.out.println(speed);
 	}
-	
+
+	/**
+	 * Called once per scheduler run
+	 */
 	@Override
 	public void periodic() {
 	}
