@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class Intake extends CommandBase {
+	private final double INTAKE_SPEED = 1;
 	private final IntakeSubsystem intake;
-	private double speed;
 	private boolean polarity;
 
 	/**
@@ -24,7 +24,6 @@ public class Intake extends CommandBase {
 	 */
 	public Intake(IntakeSubsystem intake, boolean polarity) {
 		this.intake = intake;
-		speed = 1.0;
 		this.polarity = polarity;
 
 		addRequirements(intake);
@@ -42,7 +41,7 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		intake.driveIntake(speed, polarity);
+		intake.driveIntake(INTAKE_SPEED, polarity);
 	}
 
 	/**

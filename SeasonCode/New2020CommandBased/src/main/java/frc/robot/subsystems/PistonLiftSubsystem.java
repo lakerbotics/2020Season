@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PistonLiftSubsystem extends SubsystemBase {
-
 	private DoubleSolenoid pistonLeft;
 	private DoubleSolenoid pistonRight;
 
@@ -46,6 +45,7 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	 * @return If pistons are extended or not
 	 */
 	public boolean isExtended() {
+		// TODO Test this out
 		return pistonLeft.get() == Value.kForward;
 	}
 

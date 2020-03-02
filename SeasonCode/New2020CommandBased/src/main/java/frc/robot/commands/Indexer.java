@@ -8,10 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-// import Timer
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class Indexer extends CommandBase {
+	// TODO Finetune indexer speed
+	private final double INDEXER_SPEED = 0.5;
 	private final IndexerSubsystem indexer;
 
 	private boolean polarity;
@@ -38,7 +39,7 @@ public class Indexer extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		indexer.indexerDrive(0.5, true);
+		indexer.indexerDrive(INDEXER_SPEED, true);
 	}
 
 	/**

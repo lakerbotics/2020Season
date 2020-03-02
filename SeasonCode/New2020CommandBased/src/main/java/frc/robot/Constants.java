@@ -32,7 +32,7 @@ public final class Constants {
 	public static final int leftShooter = 7;
 	public static final int rightShooter = 8;
 
-	public static final int leftPistonForward = -1; // Change these values
+	public static final int leftPistonForward = -1; // TODO Change these values
 	public static final int leftPistonReverse = -1;
 	public static final int rightPistonForward = -1;
 	public static final int rightPistonReverse = -1;

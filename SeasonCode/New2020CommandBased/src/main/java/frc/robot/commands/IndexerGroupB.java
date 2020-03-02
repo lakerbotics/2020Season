@@ -14,16 +14,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexerGroupB extends CommandBase {
+	private final double INDEXER_SPEED = 0.5;
 	private final IndexerSubsystem indexer;
 	private final Shooter shooter;
-	private final double INDEXER_SPEED = 0.5;
 
 	private boolean polarity;
 
 	/**
 	 * Coordinates Indexer with Shooter. Shooter is constantly running. Activates
-	 * Indexer when shooter is up to speed. Is contained within ParallelCommandGroup
-	 * Command Group. See {@link frc.robot.RobotContainer#configureButtonBindings}
+	 * Indexer when shooter is up to speed. Is contained within
+	 * ParallelCommandGroup. See
+	 * {@link frc.robot.RobotContainer#configureButtonBindings}
 	 * 
 	 * @param indexer Indexer subsystem
 	 * @param shooter Shooter command
@@ -49,7 +50,6 @@ public class IndexerGroupB extends CommandBase {
 	public void execute() {
 		if (shooter.isReady()) {
 			indexer.indexerDrive(INDEXER_SPEED, true);
-
 		}
 		else {
 			indexer.indexerDrive(0, true);

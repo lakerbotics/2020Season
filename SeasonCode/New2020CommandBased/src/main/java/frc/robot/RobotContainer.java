@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 // Commands
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.*;
 
@@ -28,12 +29,19 @@ import frc.robot.subsystems.*;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+	private final ArcadeDrive arcadeDrive;
+	private final LimelightTrackingDrive limeLightDrive;
+	private final Shooter shooter;
+	private final Intake intake;
+	private final Indexer indexer;
+	private final IndexerGroupA indexerGroupA;
+	private final IndexerGroupB indexerGroupB;
+	private final PistonLift pistonLift;
 
-	private final DriveTrainSubsystem drivetrain;
-	private final IndexerSubsystem indexer;
-	private final IntakeSubsystem intake;
-	private final ShooterSubsystem shooter;
-	private final PistonLiftSubsystem pistonLift;
+	private final ParallelCommandGroup intakeIndexerGroup;
+	private final ParallelCommandGroup indexerShooterGroup;
+
+	private final RotationDrive autonomousCommand;
 
 	private final Joystick Joy;
 
@@ -42,20 +50,35 @@ public class RobotContainer {
 	 */
 
 	public RobotContainer() {
-
-		drivetrain = new DriveTrainSubsystem();
-		indexer = new IndexerSubsystem();
-		intake = new IntakeSubsystem();
-		shooter = new ShooterSubsystem();
-		pistonLift = new PistonLiftSubsystem();
-
 		Joy = new Joystick(0);
 
-		drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> Joy.getY(), () -> Joy.getZ()));
+		DriveTrainSubsystem drivetrainSubsystem = new DriveTrainSubsystem();
+		IndexerSubsystem indexerSubsystem = new IndexerSubsystem();
+		IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+		ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+		PistonLiftSubsystem pistonLiftSubsystem = new PistonLiftSubsystem();
+
+		// TODO Figure out if we can remove the use of suppliers
+		arcadeDrive = new ArcadeDrive(drivetrainSubsystem, () -> Joy.getY(), () -> Joy.getZ());
+		
+		limeLightDrive = new LimelightTrackingDrive(drivetrainSubsystem);
+		shooter = new Shooter(shooterSubsystem);
+		intake = new Intake(intakeSubsystem, true);
+		indexer = new Indexer(indexerSubsystem);
+		indexerGroupA = new IndexerGroupA(indexerSubsystem);
+		indexerGroupB = new IndexerGroupB(indexerSubsystem, shooter);
+		pistonLift = new PistonLift(pistonLiftSubsystem);
+		autonomousCommand = new RotationDrive(drivetrainSubsystem, 10);
+
+		intakeIndexerGroup = new ParallelCommandGroup(intake, indexerGroupA);
+		indexerShooterGroup = new ParallelCommandGroup(shooter, indexerGroupB);
+
+
+		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
 
 		configureButtonBindings();
 
-		// Plug in both cameras to access
+		// TODO Check if camera server actually work
 		// CameraServer.getInstance().startAutomaticCapture();
 		// CameraServer.getInstance().startAutomaticCapture();
 
@@ -68,6 +91,8 @@ public class RobotContainer {
 	 * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
+		// TODO Finalize button mappings
+
 		final JoystickButton trigger = new JoystickButton(Joy, 1);
 		final JoystickButton sideButton = new JoystickButton(Joy, 2);
 		final JoystickButton topButton3 = new JoystickButton(Joy, 3);
@@ -76,28 +101,26 @@ public class RobotContainer {
 		final JoystickButton topButton6 = new JoystickButton(Joy, 6);
 
 		// TRIGGER -> Indexer and Shooter
-		Shooter shooterCommand = new Shooter(shooter);
-		trigger.whileHeld(new ParallelCommandGroup(shooterCommand, new IndexerGroupB(indexer, shooterCommand)));
+		trigger.whileHeld(indexerShooterGroup);
 
 		// SIDE BUTTON -> Limelight alignment
-		sideButton.whileHeld(new LimelightTrackingDrive(drivetrain));
+		sideButton.whileHeld(limeLightDrive);
 
 		// TOP BUTTON 3 -> Intake and Indexer
-		topButton3.whileHeld(new ParallelCommandGroup(new Intake(intake, true), new IndexerGroupA(indexer)));
+		topButton3.whileHeld(intakeIndexerGroup);
 
 		// TOP BUTTON 4 -> Piston lift
 		// Set to whenReleased because having whileHeld would tell pistons go up and
 		// down hundreds of times within a short period of time.
-		topButton4.whenReleased(new PistonLift(pistonLift));
+		topButton4.whenReleased(pistonLift);
 
 		// TOP BUTTON 5 -> Indexer
-		topButton5.whileHeld(new Indexer(indexer));
+		topButton5.whileHeld(indexer);
 
 		// TOP BUTTON 6 -> Autonomous Drive
-		topButton6.whileHeld(new RotationDrive(drivetrain, 2));
+		topButton6.whileHeld(autonomousCommand);
 
-		System.out.println("Configured");
-
+		System.out.println("Buttons Mapped");
 	}
 
 	/**
@@ -105,10 +128,8 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
-
-	/**
-	 * public Command getAutonomousCommand() { // An ExampleCommand will run in
-	 * autonomous // return autoCommand; # Not defined }
-	 */
+	public Command getAutonomousCommand() {
+		return autonomousCommand;
+	}
 
 }

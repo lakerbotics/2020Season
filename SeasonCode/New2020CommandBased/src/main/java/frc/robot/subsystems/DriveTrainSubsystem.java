@@ -104,6 +104,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		}
 
 		controller.setGoal(goal);
+		// TODO Fix this
 		left.set(controller.calculate(encoder.getDistance()));
 		right.set(controller.calculate(encoder.getDistance()));
 

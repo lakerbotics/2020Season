@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 // import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
+// TODO Modify throttle mixers
+
 public class ArcadeDrive extends CommandBase {
 	private final DriveTrainSubsystem driveTrain;
 	private final DoubleSupplier x;

@@ -106,6 +106,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	 * Moves & Rotates the robot with tank drive to correct X and Y offset
 	 */
 	public void trackTarget() {
+		// TODO Test Y alignment
 		tx = limeLight.getEntry("tx").getDouble(0.0);
 		ty = limeLight.getEntry("ty").getDouble(0.0);
 

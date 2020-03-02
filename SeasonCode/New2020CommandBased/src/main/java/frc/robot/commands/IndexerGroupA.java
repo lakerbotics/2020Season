@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexerGroupA extends CommandBase {
+	// TODO Fix ball shooting out of intake. Tune with indexer speeds and delays
 	private final IndexerSubsystem indexer;
 	private final double INITIAL_INDEXER_SPEED = 0.55;
 	private final double SECONDARY_INDEXER_SPEED = 0.01;
@@ -24,7 +25,7 @@ public class IndexerGroupA extends CommandBase {
 	/**
 	 * Coordinates Intake with Indexer. Intake is constantly running. Activates
 	 * Indexer when limit switch is triggered. Is contained within
-	 * ParallelCommandGroup Command Group. See
+	 * ParallelCommandGroup. See
 	 * {@link frc.robot.RobotContainer#configureButtonBindings}
 	 * 
 	 * @param indexer Indexer subsystem
