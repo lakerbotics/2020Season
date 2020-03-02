@@ -20,8 +20,8 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	 * Creates new piston lift subsystem
 	 */
 	public PistonLiftSubsystem() {
-		pistonLeft = new DoubleSolenoid(Constants.leftPistonForward, Constants.leftPistonReverse);
-		pistonRight = new DoubleSolenoid(Constants.rightPistonForward, Constants.rightPistonReverse);
+		//pistonLeft = new DoubleSolenoid(Constants.leftPistonForward, Constants.leftPistonReverse);
+		//pistonRight = new DoubleSolenoid(Constants.rightPistonForward, Constants.rightPistonReverse);
 	}
 
 	/**

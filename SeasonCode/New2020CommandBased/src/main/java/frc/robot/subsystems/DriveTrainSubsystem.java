@@ -33,11 +33,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 	private final DifferentialDrive drive;
 
-	private double goal;
+	private TrapezoidProfile.State goal;
 	private boolean goalHasBeenSet;
 	private final Encoder encoder;
-	private final TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(1.75, 0.1);
-	private final ProfiledPIDController controller = new ProfiledPIDController(1.2, 1, 1, constraints);
+	private final TrapezoidProfile.Constraints constraints;
+	private final ProfiledPIDController controller;
 
 	// TODO Implement PID & Encoder
 
@@ -55,6 +55,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		left = new SpeedControllerGroup(frontLeft, backLeft);
 
 		drive = new DifferentialDrive(left, right);
+		constraints = new TrapezoidProfile.Constraints(1.75, 1);
+		controller = new ProfiledPIDController(0.2, 0, 0.0, constraints); // 0.2, 0, 0
 
 		encoder = new Encoder(5, 4);
 
@@ -88,8 +90,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	 */
 	public void setTarget(double rotations) {
 		encoder.reset();
-		encoder.setDistancePerPulse(Math.PI * 7.9 / 360);
-		goal = rotations;
+		encoder.setDistancePerPulse(Math.PI * 8 * 1 / 360);
+		goal = new TrapezoidProfile.State(5, 0);
 		goalHasBeenSet = true;
 
 		System.out.print("INIT HERE");
@@ -103,12 +105,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
 			return;
 		}
 
-		controller.setGoal(goal);
-		// TODO Fix this
-		left.set(controller.calculate(encoder.getDistance()));
-		right.set(controller.calculate(encoder.getDistance()));
+		controller.setGoal(24.83 * 1); //12 is around half //24 is full
 
+		// TODO Fix this
+		left.set(-controller.calculate(encoder.getDistance()) * 0);
+		right.set(-controller.calculate(encoder.getDistance()) * 0);
 		System.out.println(encoder.getDistance());
+
+		if (controller.atGoal()) {	
+				System.out.println(controller.atGoal());}
+				System.out.println(encoder.getDistance());
+				System.out.println(encoder.getRaw());
+		System.out.println("Projected " + controller.calculate(encoder.getDistance()));
 	}
 
 	/**

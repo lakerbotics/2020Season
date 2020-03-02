@@ -102,7 +102,7 @@ public class RobotContainer {
 
 		// TRIGGER -> Indexer and Shooter
 		trigger.whileHeld(indexerShooterGroup);
-
+		
 		// SIDE BUTTON -> Limelight alignment
 		sideButton.whileHeld(limeLightDrive);
 
