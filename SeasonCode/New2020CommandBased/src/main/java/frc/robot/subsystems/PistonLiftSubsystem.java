@@ -15,13 +15,24 @@ import frc.robot.Constants;
 public class PistonLiftSubsystem extends SubsystemBase {
 	private DoubleSolenoid pistonLeft;
 	private DoubleSolenoid pistonRight;
+	private boolean extended;
+
+	private int stage;
 
 	/**
 	 * Creates new piston lift subsystem
 	 */
 	public PistonLiftSubsystem() {
-		//pistonLeft = new DoubleSolenoid(Constants.leftPistonForward, Constants.leftPistonReverse);
-		//pistonRight = new DoubleSolenoid(Constants.rightPistonForward, Constants.rightPistonReverse);
+
+		pistonLeft = new DoubleSolenoid(Constants.leftPistonForward, Constants.leftPistonReverse);
+		pistonRight = new DoubleSolenoid(Constants.rightPistonForward, Constants.rightPistonReverse);
+
+		retract();
+
+		extended = false;
+
+		stage = 0;
+	
 	}
 
 	/**
@@ -30,6 +41,7 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	public void extend() {
 		pistonLeft.set(Value.kForward);
 		pistonRight.set(Value.kForward);
+		extended = true;
 	}
 
 	/**
@@ -38,16 +50,21 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	public void retract() {
 		pistonLeft.set(Value.kReverse);
 		pistonRight.set(Value.kReverse);
+		extended = false;
 	}
 
+	public void off() {
+		pistonLeft.set(Value.kOff);
+		pistonRight.set(Value.kOff);
+	}
 	/**
 	 * Checks if the pistons are extended
 	 * @return If pistons are extended or not
 	 */
 	public boolean isExtended() {
-		// TODO Test this out
-		return pistonLeft.get() == Value.kForward;
+		return extended;
 	}
+
 
 	/**
 	 * Called once per scheduler run
@@ -55,5 +72,6 @@ public class PistonLiftSubsystem extends SubsystemBase {
 	@Override
 	public void periodic() {
 		// This method will be called once per scheduler run
+
 	}
 }

@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.PistonLiftSubsystem;
 
 public class PistonLift extends CommandBase {
@@ -21,7 +23,6 @@ public class PistonLift extends CommandBase {
 	 */
 	public PistonLift(PistonLiftSubsystem pistonLift) {
 		this.pistonLift = pistonLift;
-
 		addRequirements(pistonLift);
 	}
 
@@ -30,6 +31,7 @@ public class PistonLift extends CommandBase {
 	 */
 	@Override
 	public void initialize() {
+		pistonLift.off();
 	}
 
 	/**
@@ -37,12 +39,16 @@ public class PistonLift extends CommandBase {
 	 */
 	@Override
 	public void execute() {
+		//System.out.println("being executed");
 		if (!pistonLift.isExtended()) {
 			pistonLift.extend();
 		}
 		else {
 			pistonLift.retract();
 		}
+		//pistonLift.retract();
+
+		this.cancel();
 	}
 
 	/**

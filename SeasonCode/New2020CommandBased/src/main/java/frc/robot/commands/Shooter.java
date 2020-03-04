@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;;
 
 public class Shooter extends CommandBase {
-	private final int SPEED_THRESHOLD = 350000;
+	private final int SPEED_THRESHOLD = 35000;
 	private final ShooterSubsystem shooter;
 
 	/**

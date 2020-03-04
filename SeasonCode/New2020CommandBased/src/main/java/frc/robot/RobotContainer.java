@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 // Control Devices
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -37,11 +38,12 @@ public class RobotContainer {
 	private final IndexerGroupA indexerGroupA;
 	private final IndexerGroupB indexerGroupB;
 	private final PistonLift pistonLift;
-
+	
 	private final ParallelCommandGroup intakeIndexerGroup;
 	private final ParallelCommandGroup indexerShooterGroup;
-
 	private final RotationDrive autonomousCommand;
+	private CompressorActivation compressorActivation;
+	
 
 	private final Joystick Joy;
 
@@ -57,7 +59,9 @@ public class RobotContainer {
 		IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 		ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 		PistonLiftSubsystem pistonLiftSubsystem = new PistonLiftSubsystem();
+		CompressorSubsystem compressorSub = new CompressorSubsystem();
 
+		
 		// TODO Figure out if we can remove the use of suppliers
 		arcadeDrive = new ArcadeDrive(drivetrainSubsystem, () -> Joy.getY(), () -> Joy.getZ());
 		
@@ -68,13 +72,15 @@ public class RobotContainer {
 		indexerGroupA = new IndexerGroupA(indexerSubsystem);
 		indexerGroupB = new IndexerGroupB(indexerSubsystem, shooter);
 		pistonLift = new PistonLift(pistonLiftSubsystem);
-		autonomousCommand = new RotationDrive(drivetrainSubsystem, 10);
+		autonomousCommand = new RotationDrive(drivetrainSubsystem, 3);
+		compressorActivation = new CompressorActivation(compressorSub);
 
 		intakeIndexerGroup = new ParallelCommandGroup(intake, indexerGroupA);
 		indexerShooterGroup = new ParallelCommandGroup(shooter, indexerGroupB);
 
 
 		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
+		//compressorSub.setDefaultCommand(compressorActivation);
 
 		configureButtonBindings();
 
@@ -100,6 +106,8 @@ public class RobotContainer {
 		final JoystickButton topButton5 = new JoystickButton(Joy, 5);
 		final JoystickButton topButton6 = new JoystickButton(Joy, 6);
 
+		final JoystickButton bottomButton8 = new JoystickButton(Joy, 8);
+
 		// TRIGGER -> Indexer and Shooter
 		trigger.whileHeld(indexerShooterGroup);
 		
@@ -112,13 +120,17 @@ public class RobotContainer {
 		// TOP BUTTON 4 -> Piston lift
 		// Set to whenReleased because having whileHeld would tell pistons go up and
 		// down hundreds of times within a short period of time.
-		topButton4.whenReleased(pistonLift);
-
+		topButton4.whenPressed(pistonLift);
+		
+		
 		// TOP BUTTON 5 -> Indexer
 		topButton5.whileHeld(indexer);
 
 		// TOP BUTTON 6 -> Autonomous Drive
-		topButton6.whileHeld(autonomousCommand);
+		/* topButton6.whileHeld(autonomousCommand); */
+
+		// Bottom Button 8 -> Compressor On/Off For now
+		bottomButton8.whenPressed(compressorActivation);
 
 		System.out.println("Buttons Mapped");
 	}

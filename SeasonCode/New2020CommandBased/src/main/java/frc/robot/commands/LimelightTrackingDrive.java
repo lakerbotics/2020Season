@@ -33,7 +33,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	private double ty;
 
 	private final double KP = -0.015;
-	private final double MIN_AIM_COMMAND = 0.5; // 0.36
+	private final double MIN_AIM_COMMAND = 0.6; // 0.36 , 0.5
 
 	/**
 	 * Controls drivetrain and aligns robot with LimeLight crosshair
@@ -96,7 +96,7 @@ public class LimelightTrackingDrive extends CommandBase {
 
 		left = steeringAdjust;
 		right = -1 * steeringAdjust;
-
+		
 		if ((Math.abs(2 - Math.abs(tx))) > 1) {
 			drivetrain.tankDrive(left, right);
 		}
@@ -106,16 +106,18 @@ public class LimelightTrackingDrive extends CommandBase {
 	 * Moves & Rotates the robot with tank drive to correct X and Y offset
 	 */
 	public void trackTarget() {
-		// TODO Test Y alignment
+		// TODO Test alignment
 		tx = limeLight.getEntry("tx").getDouble(0.0);
 		ty = limeLight.getEntry("ty").getDouble(0.0);
 
-		KpAim = -0.1;
-		KpDistance = -0.1;
+		KpAim = -0.15; // To be tuned
+		KpDistance = -0.1; // To be tuned
+
+		// MIN_AIM_COMMAND   To be tuned
 
 		headingError = -tx;
 		distanceError = -ty;
-		steeringAdjust = 0.0f;
+		steeringAdjust = 0.0;
 
 		if (tx > 1.0) {
 			steeringAdjust = KpAim * headingError - MIN_AIM_COMMAND;

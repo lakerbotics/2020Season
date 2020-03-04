@@ -50,6 +50,7 @@ public class Intake extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		intake.driveIntake(0, false);
+
 	}
 
 	/**
