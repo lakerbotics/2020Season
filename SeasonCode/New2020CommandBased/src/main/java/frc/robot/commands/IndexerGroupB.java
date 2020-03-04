@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexerGroupB extends CommandBase {
-	private final double INDEXER_SPEED = 0.5;
+	private final double INDEXER_SPEED = 0.35; //0.5
 	private final IndexerSubsystem indexer;
 	private final Shooter shooter;
 

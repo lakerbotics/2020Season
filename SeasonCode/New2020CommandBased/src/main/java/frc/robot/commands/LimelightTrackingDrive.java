@@ -33,7 +33,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	private double ty;
 
 	private final double KP = -0.015;
-	private final double MIN_AIM_COMMAND = 0.6; // 0.36 , 0.5
+	private final double MIN_AIM_COMMAND = 0.6; // 0.36 , 0.5, 0.6
 
 	/**
 	 * Controls drivetrain and aligns robot with LimeLight crosshair
@@ -87,11 +87,11 @@ public class LimelightTrackingDrive extends CommandBase {
 		headingError = -tx;
 		steeringAdjust = 0;
 
-		if (tx > 1.4) {
+		if (tx > 0.75) {
 			steeringAdjust = KP * headingError + MIN_AIM_COMMAND;
 		}
-		else if (tx < -0.6) {
-			steeringAdjust = KP * headingError - MIN_AIM_COMMAND;
+		else if (tx < -0.25) {
+			steeringAdjust = KP * headingError - MIN_AIM_COMMAND - 0.05;
 		}
 
 		left = steeringAdjust;

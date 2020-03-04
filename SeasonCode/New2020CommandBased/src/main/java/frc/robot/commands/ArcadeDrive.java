@@ -52,6 +52,7 @@ public class ArcadeDrive extends CommandBase {
 	@Override
 	public void execute() {
 		driveTrain.drive(-1 * throttleMixerX(), throttleMixerZ());
+		//driveTrain.drive(-1 * x.getAsDouble(), z.getAsDouble());
 		// CameraServer.getInstance().
 	}
 
