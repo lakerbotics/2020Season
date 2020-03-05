@@ -7,12 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
 // Control Devices
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.cameraserver.CameraServer;
 
 // Commands
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,13 +80,14 @@ public class RobotContainer {
 
 
 		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
+		//intakeSubsystem.setDefaultCommand(intake);
 		//compressorSub.setDefaultCommand(compressorActivation);
 
 		configureButtonBindings();
 
 		// TODO Check if camera server actually work
-		// CameraServer.getInstance().startAutomaticCapture();
-		// CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 	}
 
@@ -121,8 +122,7 @@ public class RobotContainer {
 		// Set to whenReleased because having whileHeld would tell pistons go up and
 		// down hundreds of times within a short period of time.
 		topButton4.whenPressed(pistonLift);
-		
-		
+				
 		// TOP BUTTON 5 -> Indexer
 		topButton5.whileHeld(indexer);
 

@@ -8,10 +8,12 @@
 package frc.robot.commands;
 
 // import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
+
+import edu.wpi.first.wpilibj.I2C;
+import com.revrobotics.ColorSensorV3;
 
 public class IndexerGroupA extends CommandBase {
 	// TODO Fix ball shooting out of intake. Tune with indexer speeds and delays
@@ -19,8 +21,11 @@ public class IndexerGroupA extends CommandBase {
 	private final double INITIAL_INDEXER_SPEED = 0.55;
 	private final double SECONDARY_INDEXER_SPEED = 0.01;
 
+	private final double PROXIMITY_THRESHOLD = 90;
 	private boolean polarity;
-	private DigitalInput limiter;
+	
+	private final I2C.Port i2cPort = I2C.Port.kOnboard;
+	private ColorSensorV3 colorSensor;
 
 	/**
 	 * Coordinates Intake with Indexer. Intake is constantly running. Activates
@@ -32,7 +37,7 @@ public class IndexerGroupA extends CommandBase {
 	 */
 	public IndexerGroupA(IndexerSubsystem indexer) {
 		this.indexer = indexer;
-		limiter = new DigitalInput(0);
+		colorSensor = new ColorSensorV3(i2cPort);
 
 		addRequirements(indexer);
 	}
@@ -50,7 +55,7 @@ public class IndexerGroupA extends CommandBase {
 	@Override
 	public void execute() {
 
-		if (!limiter.get()) {
+		if (colorSensor.getProximity() > PROXIMITY_THRESHOLD) {
 
 			indexer.indexerDrive(INITIAL_INDEXER_SPEED, true);
 

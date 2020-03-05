@@ -59,6 +59,7 @@ public class CompressorActivation extends CommandBase {
 		//System.out.println("pressure " + pressure); */
 
 		//System.out.println("state " + subsystem.getState());
+
 		if (subsystem.getState()) {
 			subsystem.Off();
 			System.out.println("Turned off");

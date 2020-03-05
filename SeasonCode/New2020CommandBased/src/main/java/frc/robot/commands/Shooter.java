@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;;
 
 public class Shooter extends CommandBase {
-	private final int SPEED_THRESHOLD = 36000;
+	private final int SPEED_THRESHOLD = 35500; //35000 is optimal
 	private final ShooterSubsystem shooter;
 
 	/**
@@ -64,6 +64,7 @@ public class Shooter extends CommandBase {
 	 * @return If shooter is ready or not
 	 */
 	public boolean isReady() {
+
 		if (Math.abs(shooter.getSpeed()) > SPEED_THRESHOLD) {
 			return true;
 		}

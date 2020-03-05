@@ -81,7 +81,7 @@ public class ArcadeDrive extends CommandBase {
 	private double throttleMixerX() {
 		double xSpeed = x.getAsDouble();
 		if ((xSpeed > 0.2) | (xSpeed < -0.2)) {
-			return xSpeed * 0.7;
+			return xSpeed * 0.85;
 		}
 		else if ((xSpeed <= 0.2) & (xSpeed >= -0.2)) {
 			return xSpeed * 0;
@@ -100,7 +100,7 @@ public class ArcadeDrive extends CommandBase {
 	private double throttleMixerZ() {
 		double zSpeed = z.getAsDouble();
 		if ((zSpeed > 0.2) | (zSpeed < -0.2)) {
-			return zSpeed * 0.8;
+			return zSpeed * 0.9;
 		}
 		else if ((zSpeed <= 0.2) & (zSpeed >= -0.2)) {
 			return zSpeed * 0;

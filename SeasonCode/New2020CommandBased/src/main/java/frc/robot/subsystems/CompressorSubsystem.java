@@ -39,7 +39,14 @@ public class CompressorSubsystem extends SubsystemBase {
 	}
 
 	public boolean getState() {
-		return state; // TODO : Change this
+
+		if (compressor.getCompressorCurrent() < 1) {
+			return false;
+		} 
+		else {
+			return true;
+		}
+		//return state; // TODO : Change this
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class Intake extends CommandBase {
-	private final double INTAKE_SPEED = 1;
+	private final double INTAKE_SPEED = 0.8;
 	private final IntakeSubsystem intake;
 	private boolean polarity;
 
