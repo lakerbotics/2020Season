@@ -15,13 +15,15 @@ import frc.robot.subsystems.IndexerSubsystem;
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IndexerGroupA extends CommandBase {
 	// TODO Fix ball shooting out of intake. Tune with indexer speeds and delays
 	private final IndexerSubsystem indexer;
 	private final double INITIAL_INDEXER_SPEED = 0.55;
 	private final double SECONDARY_INDEXER_SPEED = 0.01;
 
-	private final double PROXIMITY_THRESHOLD = 90;
+	private final double PROXIMITY_THRESHOLD = 93;
 	private boolean polarity;
 	
 	private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -55,11 +57,17 @@ public class IndexerGroupA extends CommandBase {
 	@Override
 	public void execute() {
 
+		SmartDashboard.putNumber("Proximity", colorSensor.getProximity());
+
 		if (colorSensor.getProximity() > PROXIMITY_THRESHOLD) {
 
-			indexer.indexerDrive(INITIAL_INDEXER_SPEED, true);
+			//indexer.indexerDrive(INITIAL_INDEXER_SPEED, true);
 
-			Timer.delay(0.13); // 0.15
+			//Timer.delay(0.23); // 0.13, 0.20, 0.23
+
+			indexer.indexerDrive(0.72, true);
+			Timer.delay(0.2);
+
 			indexer.indexerDrive(SECONDARY_INDEXER_SPEED, false);
 			Timer.delay(1.1);
 			this.cancel();

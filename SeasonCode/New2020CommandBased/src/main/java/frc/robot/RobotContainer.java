@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 
 // Commands
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +46,7 @@ public class RobotContainer {
 	private final ParallelCommandGroup indexerShooterGroup;
 	private final RotationDrive autonomousCommand;
 	private CompressorActivation compressorActivation;
+	private final CameraManagement cameraCommand;
 	
 
 	private final Joystick Joy;
@@ -78,16 +82,14 @@ public class RobotContainer {
 		intakeIndexerGroup = new ParallelCommandGroup(intake, indexerGroupA);
 		indexerShooterGroup = new ParallelCommandGroup(shooter, indexerGroupB);
 
+		cameraCommand = new CameraManagement();
 
-		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
+
+	//	drivetrainSubsystem.setDefaultCommand(arcadeDrive);
 		//intakeSubsystem.setDefaultCommand(intake);
 		//compressorSub.setDefaultCommand(compressorActivation);
 
 		configureButtonBindings();
-
-		// TODO Check if camera server actually work
-		CameraServer.getInstance().startAutomaticCapture();
-		CameraServer.getInstance().startAutomaticCapture();
 
 	}
 
@@ -108,12 +110,13 @@ public class RobotContainer {
 		final JoystickButton topButton6 = new JoystickButton(Joy, 6);
 
 		final JoystickButton bottomButton8 = new JoystickButton(Joy, 8);
+		final JoystickButton bottomButton10 = new JoystickButton(Joy, 10);
 
 		// TRIGGER -> Indexer and Shooter
 		trigger.whileHeld(indexerShooterGroup);
 		
 		// SIDE BUTTON -> Limelight alignment
-		sideButton.whileHeld(limeLightDrive);
+	//	sideButton.whileHeld(limeLightDrive);
 
 		// TOP BUTTON 3 -> Intake and Indexer
 		topButton3.whileHeld(intakeIndexerGroup);
@@ -121,7 +124,7 @@ public class RobotContainer {
 		// TOP BUTTON 4 -> Piston lift
 		// Set to whenReleased because having whileHeld would tell pistons go up and
 		// down hundreds of times within a short period of time.
-		topButton4.whenPressed(pistonLift);
+	//	topButton4.whenPressed(pistonLift);
 				
 		// TOP BUTTON 5 -> Indexer
 		topButton5.whileHeld(indexer);
@@ -130,9 +133,14 @@ public class RobotContainer {
 		/* topButton6.whileHeld(autonomousCommand); */
 
 		// Bottom Button 8 -> Compressor On/Off For now
-		bottomButton8.whenPressed(compressorActivation);
+	//	bottomButton8.whenPressed(compressorActivation);
+
+		// Bottom Button 10 -> Camera Switch
+		bottomButton10.whenPressed(cameraCommand);
+		
 
 		System.out.println("Buttons Mapped");
+
 	}
 
 	/**
