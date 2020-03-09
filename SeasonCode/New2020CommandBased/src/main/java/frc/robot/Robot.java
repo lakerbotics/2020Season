@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 // import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +27,14 @@ public class Robot extends TimedRobot {
 	
 	@SuppressWarnings("unused")
 	private RobotContainer robotContainer;
+	private boolean limelightrack;
+
+	private DriveTrainSubsystem drivetrain;
+
+	private RotationDrive rotationDrive;
+
+	private double timeGoal;
+	private boolean flag1 = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -35,6 +46,7 @@ public class Robot extends TimedRobot {
 		// and put our
 		// autonomous chooser on the dashboard.
 		robotContainer = new RobotContainer();
+		timeGoal = System.currentTimeMillis() + (1000 * 2);
 		
 	}
 
@@ -64,6 +76,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		
 	}
 
 	@Override
@@ -76,12 +89,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		// autonomousCommand = robotContainer.getAutonomousCommand();
+		autonomousCommand = robotContainer.getAutonomousCommand();
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
-			autonomousCommand.schedule();
+			autonomousCommand.schedule();	
+			System.out.println(autonomousCommand);
 		}
+
 	}
 
 	/**
@@ -89,6 +104,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+
 	}
 
 	@Override

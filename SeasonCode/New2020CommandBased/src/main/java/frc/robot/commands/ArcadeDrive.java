@@ -51,7 +51,7 @@ public class ArcadeDrive extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		driveTrain.drive(-1 * newThrottleMixer(), throttleMixerZ());
+		driveTrain.drive(-1 * newThrottleMixerX(), newThrottleMixerZ());
 		//driveTrain.drive(-1 * x.getAsDouble(), z.getAsDouble());
 		// CameraServer.getInstance().
 	}
@@ -111,7 +111,7 @@ public class ArcadeDrive extends CommandBase {
 
 	}
 
-	private double newThrottleMixer() {
+	private double newThrottleMixerX() {
 		double xSpeed = x.getAsDouble();
 		// if (Math.abs(xSpeed) > 0.7) {
 		// 	return xSpeed * 0.85;
@@ -128,6 +128,26 @@ public class ArcadeDrive extends CommandBase {
 		double time = 2.51230562398;
 
 		double adjusted = 2 / (1 + Math.pow(Math.E, -time * xSpeed)) - 1;
+
+		return adjusted;
+	}
+	private double newThrottleMixerZ() {
+		double zSpeed = z.getAsDouble();
+		// if (Math.abs(xSpeed) > 0.7) {
+		// 	return xSpeed * 0.85;
+		// }
+		// else if (Math.abs(xSpeed) > 0.3) {
+		// 	return xSpeed * 0.9;
+		// }
+		// else if (Math.abs(xSpeed) > 0.05) {
+		// 	return xSpeed;
+		// }
+		// else {
+		// 	return xSpeed;
+		// }
+		double time = 2.51230562398;
+
+		double adjusted = 2 / (1 + Math.pow(Math.E, -time * zSpeed)) - 1;
 
 		return adjusted;
 	}

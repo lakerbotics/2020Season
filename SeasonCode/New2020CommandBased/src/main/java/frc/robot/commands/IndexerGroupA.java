@@ -11,6 +11,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.I2C;
 import com.revrobotics.ColorSensorV3;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IndexerGroupA extends CommandBase {
 	// TODO Fix ball shooting out of intake. Tune with indexer speeds and delays
 	private final IndexerSubsystem indexer;
+	private final Joystick Joy;
 	private final double INITIAL_INDEXER_SPEED = 0.55;
 	private final double SECONDARY_INDEXER_SPEED = 0.01;
 
@@ -37,8 +39,10 @@ public class IndexerGroupA extends CommandBase {
 	 * 
 	 * @param indexer Indexer subsystem
 	 */
-	public IndexerGroupA(IndexerSubsystem indexer) {
+	public IndexerGroupA(IndexerSubsystem indexer, Joystick Joy) {
 		this.indexer = indexer;
+		this.Joy = Joy;
+
 		colorSensor = new ColorSensorV3(i2cPort);
 
 		addRequirements(indexer);
@@ -65,8 +69,8 @@ public class IndexerGroupA extends CommandBase {
 
 			//Timer.delay(0.23); // 0.13, 0.20, 0.23
 
-			indexer.indexerDrive(0.72, true);
-			Timer.delay(0.2);
+			indexer.indexerDrive(calculateSpeed(), true); //0.72
+			Timer.delay(calculateTime()); //0.2
 
 			indexer.indexerDrive(SECONDARY_INDEXER_SPEED, false);
 			Timer.delay(1.1);
@@ -97,5 +101,26 @@ public class IndexerGroupA extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		return false;
+	}
+
+	public double calculateSpeed() {
+		double JoySpeed = Math.abs(Joy.getY());
+		if (JoySpeed >= 0.5) {
+			return (JoySpeed * 0.8);
+		}
+		else {
+			return (0.45);
+		}
+	}
+
+	public double calculateTime() {
+		double JoyTime = Math.abs(Joy.getY());
+		double base = 0.5;
+		if (JoyTime < 0.4) {
+			return base;
+		}
+		else {
+			return ( base - (JoyTime * 0.25));
+		}
 	}
 }

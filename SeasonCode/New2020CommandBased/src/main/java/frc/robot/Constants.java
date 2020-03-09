@@ -40,3 +40,19 @@ public final class Constants {
 
 	public static final DutyCycleEncoder leftDriveEncoder = new DutyCycleEncoder(0);
 }
+
+/*
+@Override
+	public boolean isFinished() {
+		
+		tx = limeLight.getEntry("tx").getDouble(0.0);
+		if ( (tx < 0) && (tx > -1)) {
+			this.end(true);
+			return true;
+		}
+		else {
+			return false;
+		}
+		return false;
+	}
+*/

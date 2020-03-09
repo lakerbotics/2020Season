@@ -15,8 +15,8 @@ import frc.robot.subsystems.DriveTrainSubsystem;
  * An example command that uses an example subsystem.
  */
 public class RotationDrive extends CommandBase {
+
 	private final DriveTrainSubsystem drivetrain;
-	double rotations;
 
 	/**
 	 * Drives the robot a set amount of rotations autonomously.
@@ -25,10 +25,12 @@ public class RotationDrive extends CommandBase {
 	 * @param rotations  Rotations to move robot. Distance = Wheel Circumference *
 	 *   Rotations
 	 */
-	public RotationDrive(DriveTrainSubsystem drivetrain, double rotations) {
-		this.drivetrain = drivetrain;
-		this.rotations = rotations;
 
+	private double timeGoal;
+
+	public RotationDrive(DriveTrainSubsystem drivetrain) {
+		this.drivetrain = drivetrain;
+		timeGoal = System.currentTimeMillis() + (1000 * 2);
 		addRequirements(drivetrain);
 	}
 
@@ -37,7 +39,9 @@ public class RotationDrive extends CommandBase {
 	 */
 	@Override
 	public void initialize() {
-		drivetrain.setTarget(this.rotations);
+
+		timeGoal = System.currentTimeMillis() + (1000 * 0.8);
+
 	}
 
 	/**
@@ -45,7 +49,8 @@ public class RotationDrive extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		drivetrain.rotationDrive();
+		
+		drivetrain.setTankDrive(0.8, 0.8);
 	}
 
 	/**
@@ -53,6 +58,7 @@ public class RotationDrive extends CommandBase {
 	 */
 	@Override
 	public void end(boolean interrupted) {
+		this.cancel();
 	}
 
 	/**
@@ -60,6 +66,14 @@ public class RotationDrive extends CommandBase {
 	 */
 	@Override
 	public boolean isFinished() {
-		return false;
+		if (System.currentTimeMillis() <= timeGoal) {
+			return false;
+		}
+		else {
+			end(true);
+			return true;
+		}
+		
 	}
+
 }

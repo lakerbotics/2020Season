@@ -20,6 +20,7 @@ import edu.wpi.cscore.VideoSource.ConnectionStrategy;
 // Commands
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 
 // Subsystems
@@ -44,7 +45,7 @@ public class RobotContainer {
 	
 	private final ParallelCommandGroup intakeIndexerGroup;
 	private final ParallelCommandGroup indexerShooterGroup;
-	private final RotationDrive autonomousCommand;
+	private SequentialCommandGroup autonomousCommand;
 	private CompressorActivation compressorActivation;
 	private final CameraManagement cameraCommand;
 	
@@ -71,26 +72,28 @@ public class RobotContainer {
 		
 		limeLightDrive = new LimelightTrackingDrive(drivetrainSubsystem);
 		shooter = new Shooter(shooterSubsystem);
-		intake = new Intake(intakeSubsystem, true);
+		intake = new Intake(intakeSubsystem, true, Joy);
 		indexer = new Indexer(indexerSubsystem);
-		indexerGroupA = new IndexerGroupA(indexerSubsystem);
+		indexerGroupA = new IndexerGroupA(indexerSubsystem, Joy);
 		indexerGroupB = new IndexerGroupB(indexerSubsystem, shooter);
 		pistonLift = new PistonLift(pistonLiftSubsystem);
-		autonomousCommand = new RotationDrive(drivetrainSubsystem, 3);
 		compressorActivation = new CompressorActivation(compressorSub);
 
 		intakeIndexerGroup = new ParallelCommandGroup(intake, indexerGroupA);
 		indexerShooterGroup = new ParallelCommandGroup(shooter, indexerGroupB);
 
 		cameraCommand = new CameraManagement();
+		
 
 
-	//	drivetrainSubsystem.setDefaultCommand(arcadeDrive);
+		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
 		//intakeSubsystem.setDefaultCommand(intake);
 		//compressorSub.setDefaultCommand(compressorActivation);
 
 		configureButtonBindings();
 
+		// Autonomous command
+		autonomousCommand = new SequentialCommandGroup( new ShooterAuto(shooterSubsystem), new RotationDrive(drivetrainSubsystem) );
 	}
 
 	/**
@@ -116,7 +119,7 @@ public class RobotContainer {
 		trigger.whileHeld(indexerShooterGroup);
 		
 		// SIDE BUTTON -> Limelight alignment
-	//	sideButton.whileHeld(limeLightDrive);
+		sideButton.whileHeld(limeLightDrive);
 
 		// TOP BUTTON 3 -> Intake and Indexer
 		topButton3.whileHeld(intakeIndexerGroup);
@@ -124,7 +127,7 @@ public class RobotContainer {
 		// TOP BUTTON 4 -> Piston lift
 		// Set to whenReleased because having whileHeld would tell pistons go up and
 		// down hundreds of times within a short period of time.
-	//	topButton4.whenPressed(pistonLift);
+		topButton4.whenPressed(pistonLift);
 				
 		// TOP BUTTON 5 -> Indexer
 		topButton5.whileHeld(indexer);
@@ -133,7 +136,7 @@ public class RobotContainer {
 		/* topButton6.whileHeld(autonomousCommand); */
 
 		// Bottom Button 8 -> Compressor On/Off For now
-	//	bottomButton8.whenPressed(compressorActivation);
+		bottomButton8.whenPressed(compressorActivation);
 
 		// Bottom Button 10 -> Camera Switch
 		bottomButton10.whenPressed(cameraCommand);

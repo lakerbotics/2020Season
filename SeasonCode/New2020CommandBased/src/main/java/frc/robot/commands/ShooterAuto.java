@@ -9,27 +9,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.ShooterSubsystem;;
 
-public class Intake extends CommandBase {
-	private final double INTAKE_SPEED = 0.4; //0.8, 9.7
-	private final IntakeSubsystem intake;
-	private boolean polarity;
-	private final Joystick Joy;
+public class ShooterAuto extends CommandBase {
+	private final int SPEED_THRESHOLD = 35500; //35000 is optimal
+	private final ShooterSubsystem shooter;
 
 	/**
-	 * Activates Intake subsystem in certain direction (speed is constant)
+	 * Activates the shooter on or off
 	 * 
-	 * @param intake   Intake subsystem
-	 * @param polarity Direction of intake (boolean)
+	 * @param shooter Shooter subsystem
 	 */
-	public Intake(IntakeSubsystem intake, boolean polarity, Joystick Joy) {
-		this.intake = intake;
-		this.polarity = polarity;
-		this.Joy = Joy;
 
-		addRequirements(intake);
+	private double timeGoal;
+
+	public ShooterAuto(ShooterSubsystem shooter) {
+		this.shooter = shooter;
+		timeGoal = System.currentTimeMillis() + (1000 * 7);
+
+		addRequirements(shooter);
 	}
 
 	/**
@@ -37,6 +35,7 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public void initialize() {
+		timeGoal = System.currentTimeMillis() + (1000 * 7);
 	}
 
 	/**
@@ -44,7 +43,8 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		intake.driveIntake(calculateSpeed(), polarity);
+
+		shooter.drive(true);
 	}
 
 	/**
@@ -52,8 +52,8 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public void end(boolean interrupted) {
-		intake.driveIntake(0, false);
-
+		shooter.drive(false);
+		this.cancel();
 	}
 
 	/**
@@ -61,16 +61,28 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public boolean isFinished() {
-		return false;
-	}
-
-	public double calculateSpeed() {
-		double JoySpeed = Math.abs(Joy.getY());
-		if (JoySpeed >= 0.5) {
-			return (JoySpeed * 0.7);
+		if (System.currentTimeMillis() <= timeGoal) {
+			return false;
 		}
 		else {
-			return (0.4);
+			end(true);
+			return true;
+		}
+	}
+
+	/**
+	 * Determines if the shooter is ready to fire if the shooter speed is over
+	 * threshold
+	 * 
+	 * @return If shooter is ready or not
+	 */
+	public boolean isReady() {
+
+		if (Math.abs(shooter.getSpeed()) > SPEED_THRESHOLD) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }

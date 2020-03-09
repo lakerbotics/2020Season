@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 // import com.fasterxml.jackson.core.json.DupDetector;
 // import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
@@ -33,8 +34,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	
 	private final DifferentialDrive drive;
 	
-	private double goal;
-	private final Encoder encoder;
+	private double timeGoal;
+	private boolean running;
+//	private final Encoder encoder;
+	int encoderDistanceLimit;
 	
 	// TODO Implement PID & Encoder
 	
@@ -53,8 +56,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		
 		drive = new DifferentialDrive(left, right);
 		
-		encoder = new Encoder(5, 4);
-		
+//		encoder = new Encoder(5, 4); //5, 4
+		encoderDistanceLimit = 200;
+//		encoder.reset();
+	
+		running = true;
+
 	}
 	
 	/**
@@ -77,23 +84,33 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		drive.tankDrive(leftSpeed, rightSpeed);
 	}
 	
+	public void setTankDrive(double leftSpeed, double rightSpeed) {
+		left.set(leftSpeed);
+		right.set(rightSpeed);
+	}
 	/**
 	* Sets target for autonomous drive
 	* 
 	* @param rotations Rotations to drive in autonomous
 	*/
-	public void setTarget(double rotations) {
-		encoder.reset();
-		encoder.setDistancePerPulse(Math.PI * 8 / 360);
+	public void setTarget() {
+//		encoder.reset();
+//		encoder.setDistancePerPulse(Math.PI * 8 / 360);
 		
-		goal = rotations * encoder.getDistancePerPulse();
+		timeGoal = System.currentTimeMillis();
 	}
 	
 	/**
 	* Drives autonomously
 	*/
-	public void rotationDrive() {
-		// A job for Rayyan Shaik
+	public void autoDrive() {
+		
+		drive.arcadeDrive(0.8, 0);
+
+	}
+
+	public boolean getAutoDrive() {
+		return this.running;
 	}
 
 	/**
