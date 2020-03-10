@@ -66,11 +66,11 @@ public class Intake extends CommandBase {
 
 	public double calculateSpeed() {
 		double JoySpeed = Math.abs(Joy.getY());
-		if (JoySpeed >= 0.5) {
-			return (JoySpeed * 0.7);
+		if (JoySpeed >= 0.65) {
+			return (JoySpeed * 0.8);
 		}
 		else {
-			return (0.4);
+			return (0.5);
 		}
 	}
 }

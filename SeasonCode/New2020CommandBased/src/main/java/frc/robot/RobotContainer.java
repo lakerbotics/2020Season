@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -34,7 +36,10 @@ import frc.robot.subsystems.*;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+	// Commands
 	private final ArcadeDrive arcadeDrive;
+	private final Indexer indexerReverse;
 	private final LimelightTrackingDrive limeLightDrive;
 	private final Shooter shooter;
 	private final Intake intake;
@@ -45,9 +50,10 @@ public class RobotContainer {
 	
 	private final ParallelCommandGroup intakeIndexerGroup;
 	private final ParallelCommandGroup indexerShooterGroup;
-	private SequentialCommandGroup autonomousCommand;
 	private CompressorActivation compressorActivation;
 	private final CameraManagement cameraCommand;
+
+	private SequentialCommandGroup autonomousCommand;
 	
 
 	private final Joystick Joy;
@@ -59,6 +65,7 @@ public class RobotContainer {
 	public RobotContainer() {
 		Joy = new Joystick(0);
 
+		// Subsystem initialization
 		DriveTrainSubsystem drivetrainSubsystem = new DriveTrainSubsystem();
 		IndexerSubsystem indexerSubsystem = new IndexerSubsystem();
 		IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -66,14 +73,15 @@ public class RobotContainer {
 		PistonLiftSubsystem pistonLiftSubsystem = new PistonLiftSubsystem();
 		CompressorSubsystem compressorSub = new CompressorSubsystem();
 
-		
-		// TODO Figure out if we can remove the use of suppliers
+
+		// Command initializations
 		arcadeDrive = new ArcadeDrive(drivetrainSubsystem, () -> Joy.getY(), () -> Joy.getZ());
-		
+
 		limeLightDrive = new LimelightTrackingDrive(drivetrainSubsystem);
 		shooter = new Shooter(shooterSubsystem);
 		intake = new Intake(intakeSubsystem, true, Joy);
-		indexer = new Indexer(indexerSubsystem);
+		indexer = new Indexer(indexerSubsystem, true);
+		indexerReverse = new Indexer(indexerSubsystem, false);
 		indexerGroupA = new IndexerGroupA(indexerSubsystem, Joy);
 		indexerGroupB = new IndexerGroupB(indexerSubsystem, shooter);
 		pistonLift = new PistonLift(pistonLiftSubsystem);
@@ -84,16 +92,18 @@ public class RobotContainer {
 
 		cameraCommand = new CameraManagement();
 		
-
-
+		
+		// Default commands
 		drivetrainSubsystem.setDefaultCommand(arcadeDrive);
 		//intakeSubsystem.setDefaultCommand(intake);
 		//compressorSub.setDefaultCommand(compressorActivation);
 
-		configureButtonBindings();
-
 		// Autonomous command
-		autonomousCommand = new SequentialCommandGroup( new ShooterAuto(shooterSubsystem), new RotationDrive(drivetrainSubsystem) );
+		ShooterAuto shooterAuto = new ShooterAuto(shooterSubsystem);
+		//autonomousCommand = new SequentialCommandGroup(new LimelightTrackingAuto(drivetrainSubsystem), new ParallelCommandGroup( shooterAuto, new IndexerGroupBAuto(indexerSubsystem, shooterAuto) ), new RotationDrive(drivetrainSubsystem));
+		autonomousCommand = new AutonomousCommand(drivetrainSubsystem, shooterSubsystem, indexerSubsystem);
+
+		configureButtonBindings();
 	}
 
 	/**
@@ -133,7 +143,7 @@ public class RobotContainer {
 		topButton5.whileHeld(indexer);
 
 		// TOP BUTTON 6 -> Autonomous Drive
-		/* topButton6.whileHeld(autonomousCommand); */
+		topButton6.whileHeld(indexerReverse);
 
 		// Bottom Button 8 -> Compressor On/Off For now
 		bottomButton8.whenPressed(compressorActivation);
@@ -144,6 +154,9 @@ public class RobotContainer {
 
 		System.out.println("Buttons Mapped");
 
+		if (Joy.getRawButtonPressed(12)) {
+			// put drivetrain reversal code here.
+		}
 	}
 
 	/**

@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.PistonLiftSubsystem;
 
 public class PistonLift extends CommandBase {
-	// TODO Test
+
 	private final PistonLiftSubsystem pistonLift;
 	
 	/**

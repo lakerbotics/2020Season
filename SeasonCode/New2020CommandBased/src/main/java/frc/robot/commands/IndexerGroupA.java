@@ -19,7 +19,7 @@ import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IndexerGroupA extends CommandBase {
-	// TODO Fix ball shooting out of intake. Tune with indexer speeds and delays
+	
 	private final IndexerSubsystem indexer;
 	private final Joystick Joy;
 	private final double INITIAL_INDEXER_SPEED = 0.55;
@@ -105,11 +105,11 @@ public class IndexerGroupA extends CommandBase {
 
 	public double calculateSpeed() {
 		double JoySpeed = Math.abs(Joy.getY());
-		if (JoySpeed >= 0.5) {
-			return (JoySpeed * 0.8);
+		if (JoySpeed >= 0.65) {
+			return (JoySpeed * 0.82);
 		}
 		else {
-			return (0.45);
+			return (0.52);
 		}
 	}
 

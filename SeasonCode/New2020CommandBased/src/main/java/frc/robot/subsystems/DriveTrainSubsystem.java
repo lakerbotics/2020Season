@@ -33,13 +33,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	private SpeedController left;
 	
 	private final DifferentialDrive drive;
+
+	private double polarity;
 	
 	private double timeGoal;
 	private boolean running;
 //	private final Encoder encoder;
 	int encoderDistanceLimit;
 	
-	// TODO Implement PID & Encoder
 	
 	/**
 	* Creates drivetrain subsystem
@@ -61,6 +62,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 //		encoder.reset();
 	
 		running = true;
+		polarity = 1;
 
 	}
 	
@@ -71,7 +73,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	* @param z Joystick z
 	*/
 	public void drive(double x, double z) {
-		drive.arcadeDrive(x, z);
+		drive.arcadeDrive(x * this.polarity, z * this.polarity);
 	}
 	
 	/**

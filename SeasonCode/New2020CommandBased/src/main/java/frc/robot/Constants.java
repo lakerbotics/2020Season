@@ -32,7 +32,7 @@ public final class Constants {
 	public static final int leftShooter = 7;
 	public static final int rightShooter = 8;
 
-	public static final int leftPistonForward = 2; // TODO Change these values
+	public static final int leftPistonForward = 2;
 	public static final int leftPistonReverse = 3;
 	public static final int rightPistonForward = 0;
 	public static final int rightPistonReverse = 1;
@@ -40,19 +40,3 @@ public final class Constants {
 
 	public static final DutyCycleEncoder leftDriveEncoder = new DutyCycleEncoder(0);
 }
-
-/*
-@Override
-	public boolean isFinished() {
-		
-		tx = limeLight.getEntry("tx").getDouble(0.0);
-		if ( (tx < 0) && (tx > -1)) {
-			this.end(true);
-			return true;
-		}
-		else {
-			return false;
-		}
-		return false;
-	}
-*/

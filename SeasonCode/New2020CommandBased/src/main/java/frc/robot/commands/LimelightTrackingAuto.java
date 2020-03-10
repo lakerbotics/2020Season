@@ -12,7 +12,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class LimelightTrackingDrive extends CommandBase {
+public class LimelightTrackingAuto extends CommandBase {
 
 	private final DriveTrainSubsystem drivetrain;
 
@@ -33,14 +33,14 @@ public class LimelightTrackingDrive extends CommandBase {
 	private double ty;
 
 	private final double KP = -0.02;
-	private final double MIN_AIM_COMMAND = 0.4; // 0.36 , 0.5, 0.6
+	private final double MIN_AIM_COMMAND = 0.52; // 0.36 , 0.5, 0.6
 
 	/**
 	 * Controls drivetrain and aligns robot with LimeLight crosshair
 	 * 
 	 * @param drivetrain Drivetrain subsystem
 	 */
-	public LimelightTrackingDrive(DriveTrainSubsystem drivetrain) {
+	public LimelightTrackingAuto(DriveTrainSubsystem drivetrain) {
 		this.drivetrain = drivetrain;
 
 		addRequirements(drivetrain);
@@ -68,6 +68,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		drivetrain.tankDrive(0, 0);
+		this.cancel();
 	}
 
 	/**
@@ -75,7 +76,15 @@ public class LimelightTrackingDrive extends CommandBase {
 	 */
 	@Override
 	public boolean isFinished() {
-		return false;
+		
+		tx = limeLight.getEntry("tx").getDouble(0.0);
+		if ( (tx < 0) && (tx > -1)) {
+			this.end(true);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -106,7 +115,7 @@ public class LimelightTrackingDrive extends CommandBase {
 	 * Moves & Rotates the robot with tank drive to correct X and Y offset
 	 */
 	public void trackTarget() {
-
+		// TODO Test alignment
 		tx = limeLight.getEntry("tx").getDouble(0.0);
 		ty = limeLight.getEntry("ty").getDouble(0.0);
 

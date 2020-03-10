@@ -8,23 +8,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+//import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.IndexerSubsystem;
 
-public class Indexer extends CommandBase {
-	// TODO Finetune indexer speed
-	private final double INDEXER_SPEED = 0.5;
+public class IndexerGroupBAuto extends CommandBase {
+	private final double INDEXER_SPEED = 0.5; //0.5
 	private final IndexerSubsystem indexer;
+	private final ShooterAuto shooter;
 
 	private boolean polarity;
 
 	/**
-	 * Moves robot indexers at a set speed
+	 * Coordinates Indexer with Shooter. Shooter is constantly running. Activates
+	 * Indexer when shooter is up to speed. Is contained within
+	 * ParallelCommandGroup. See
+	 * {@link frc.robot.RobotContainer#configureButtonBindings}
 	 * 
 	 * @param indexer Indexer subsystem
+	 * @param shooter Shooter command
 	 */
-	public Indexer(IndexerSubsystem indexer, boolean polarity) {
+	public IndexerGroupBAuto(IndexerSubsystem indexer, ShooterAuto shooter) {
 		this.indexer = indexer;
-		this.polarity = polarity;
+		this.shooter = shooter;
+
 		addRequirements(indexer);
 	}
 
@@ -40,7 +48,13 @@ public class Indexer extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		indexer.indexerDrive(INDEXER_SPEED, this.polarity);
+		if (shooter.isReady()) {
+			indexer.indexerDrive(INDEXER_SPEED, true);
+		}
+		else {
+			indexer.indexerDrive(0, true);
+		}
+
 	}
 
 	/**
@@ -49,6 +63,7 @@ public class Indexer extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		indexer.indexerDrive(0, polarity);
+		this.cancel();
 	}
 
 	/**
@@ -56,6 +71,10 @@ public class Indexer extends CommandBase {
 	 */
 	@Override
 	public boolean isFinished() {
-		return false;
+		if (shooter.isFinished()) {
+			this.end(true);
+		}
+
+		return true;
 	}
 }

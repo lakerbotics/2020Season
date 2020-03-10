@@ -21,7 +21,7 @@ public class ArcadeDrive extends CommandBase {
 	private final DoubleSupplier x;
 	private final DoubleSupplier z;
 
-	// TODO Setup drivetrain encoder
+
 	// private DutyCycleEncoder motorEncoder;
 
 	/**
@@ -149,6 +149,6 @@ public class ArcadeDrive extends CommandBase {
 
 		double adjusted = 2 / (1 + Math.pow(Math.E, -time * zSpeed)) - 1;
 
-		return adjusted;
+		return adjusted * 0.7;
 	}
 }
