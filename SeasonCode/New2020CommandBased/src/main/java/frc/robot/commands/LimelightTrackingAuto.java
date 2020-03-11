@@ -33,7 +33,7 @@ public class LimelightTrackingAuto extends CommandBase {
 	private double ty;
 
 	private final double KP = -0.02;
-	private final double MIN_AIM_COMMAND = 0.52; // 0.36 , 0.5, 0.6
+	private final double MIN_AIM_COMMAND = 0.44; // 0.36 , 0.5, 0.6
 
 	/**
 	 * Controls drivetrain and aligns robot with LimeLight crosshair
@@ -78,7 +78,7 @@ public class LimelightTrackingAuto extends CommandBase {
 	public boolean isFinished() {
 		
 		tx = limeLight.getEntry("tx").getDouble(0.0);
-		if ( (tx < 0) && (tx > -1)) {
+		if ( (tx < 0.5) && (tx > -1.5)) {
 			this.end(true);
 			return true;
 		}

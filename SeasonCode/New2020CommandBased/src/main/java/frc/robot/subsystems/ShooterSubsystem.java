@@ -64,6 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	 * @return Shooter speed
 	 */
 	public int getSpeed() {
+		System.out.println(left.getSelectedSensorVelocity());
 		return left.getSelectedSensorVelocity();
 	}
 

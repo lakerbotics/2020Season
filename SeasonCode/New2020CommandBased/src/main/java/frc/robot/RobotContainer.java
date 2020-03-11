@@ -37,6 +37,16 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
+	// Subsystems
+
+	DriveTrainSubsystem drivetrainSubsystem;
+	IndexerSubsystem indexerSubsystem;
+	IntakeSubsystem intakeSubsystem;
+	ShooterSubsystem shooterSubsystem;
+	PistonLiftSubsystem pistonLiftSubsystem;
+	CompressorSubsystem compressorSub;
+
+
 	// Commands
 	private final ArcadeDrive arcadeDrive;
 	private final Indexer indexerReverse;
@@ -66,12 +76,12 @@ public class RobotContainer {
 		Joy = new Joystick(0);
 
 		// Subsystem initialization
-		DriveTrainSubsystem drivetrainSubsystem = new DriveTrainSubsystem();
-		IndexerSubsystem indexerSubsystem = new IndexerSubsystem();
-		IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-		ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-		PistonLiftSubsystem pistonLiftSubsystem = new PistonLiftSubsystem();
-		CompressorSubsystem compressorSub = new CompressorSubsystem();
+		drivetrainSubsystem = new DriveTrainSubsystem();
+		indexerSubsystem = new IndexerSubsystem();
+		intakeSubsystem = new IntakeSubsystem();
+		shooterSubsystem = new ShooterSubsystem();
+		pistonLiftSubsystem = new PistonLiftSubsystem();
+		compressorSub = new CompressorSubsystem();
 
 
 		// Command initializations
@@ -99,7 +109,6 @@ public class RobotContainer {
 		//compressorSub.setDefaultCommand(compressorActivation);
 
 		// Autonomous command
-		ShooterAuto shooterAuto = new ShooterAuto(shooterSubsystem);
 		//autonomousCommand = new SequentialCommandGroup(new LimelightTrackingAuto(drivetrainSubsystem), new ParallelCommandGroup( shooterAuto, new IndexerGroupBAuto(indexerSubsystem, shooterAuto) ), new RotationDrive(drivetrainSubsystem));
 		autonomousCommand = new AutonomousCommand(drivetrainSubsystem, shooterSubsystem, indexerSubsystem);
 
@@ -124,6 +133,7 @@ public class RobotContainer {
 
 		final JoystickButton bottomButton8 = new JoystickButton(Joy, 8);
 		final JoystickButton bottomButton10 = new JoystickButton(Joy, 10);
+		final JoystickButton bottomButton12 = new JoystickButton(Joy, 12);
 
 		// TRIGGER -> Indexer and Shooter
 		trigger.whileHeld(indexerShooterGroup);
@@ -151,12 +161,13 @@ public class RobotContainer {
 		// Bottom Button 10 -> Camera Switch
 		bottomButton10.whenPressed(cameraCommand);
 		
+		// Bottom Button 12 -> Reverses drivetrain polarity
+
+		// TODO : FIX THIS
+		//bottomButton12.whenPressed(new ReverseDrive(drivetrainSubsystem));
 
 		System.out.println("Buttons Mapped");
 
-		if (Joy.getRawButtonPressed(12)) {
-			// put drivetrain reversal code here.
-		}
 	}
 
 	/**

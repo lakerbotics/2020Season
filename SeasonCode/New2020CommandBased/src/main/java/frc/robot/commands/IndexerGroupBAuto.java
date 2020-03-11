@@ -73,8 +73,9 @@ public class IndexerGroupBAuto extends CommandBase {
 	public boolean isFinished() {
 		if (shooter.isFinished()) {
 			this.end(true);
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }

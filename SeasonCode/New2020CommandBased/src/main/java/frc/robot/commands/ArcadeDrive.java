@@ -78,38 +78,6 @@ public class ArcadeDrive extends CommandBase {
 	 * 
 	 * @return Adjusted x value
 	 */
-	private double throttleMixerX() {
-		double xSpeed = x.getAsDouble();
-		if ((xSpeed > 0.2) | (xSpeed < -0.2)) {
-			return xSpeed * 0.85;
-		}
-		else if ((xSpeed <= 0.2) & (xSpeed >= -0.2)) {
-			return xSpeed * 0;
-		}
-		else {
-			return xSpeed;
-		}
-	}
-
-	/**
-	 * Adjusts raw input of Joystick into value for motor controllers (joystick
-	 * rotation)
-	 * 
-	 * @return Adjusted z value
-	 */
-	private double throttleMixerZ() {
-		double zSpeed = z.getAsDouble();
-		if ((zSpeed > 0.2) | (zSpeed < -0.2)) {
-			return zSpeed * 0.9;
-		}
-		else if ((zSpeed <= 0.2) & (zSpeed >= -0.2)) {
-			return zSpeed * 1;
-		}
-		else {
-			return zSpeed;
-		}
-
-	}
 
 	private double newThrottleMixerX() {
 		double xSpeed = x.getAsDouble();

@@ -73,7 +73,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	* @param z Joystick z
 	*/
 	public void drive(double x, double z) {
-		drive.arcadeDrive(x * this.polarity, z * this.polarity);
+		drive.arcadeDrive(x * polarity, z * polarity);
 	}
 	
 	/**
@@ -106,13 +106,25 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	* Drives autonomously
 	*/
 	public void autoDrive() {
-		
 		drive.arcadeDrive(0.8, 0);
-
 	}
 
+	/**
+	 * 
+	 */
 	public boolean getAutoDrive() {
 		return this.running;
+	}
+
+	public void pause() {
+		drive(0, 0);
+	}
+	
+	/**
+	 * Reverses the polarity
+	 */
+	public void reverse() {
+		this.polarity *= -1;
 	}
 
 	/**

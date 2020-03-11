@@ -11,12 +11,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C;
 
 public class Intake extends CommandBase {
 	private final double INTAKE_SPEED = 0.4; //0.8, 9.7
 	private final IntakeSubsystem intake;
 	private boolean polarity;
 	private final Joystick Joy;
+	private final double PROXIMITYTHRESHOLD;
+
+	private ColorSensorV3 colorSensor;
+	private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
 	/**
 	 * Activates Intake subsystem in certain direction (speed is constant)
@@ -28,6 +34,9 @@ public class Intake extends CommandBase {
 		this.intake = intake;
 		this.polarity = polarity;
 		this.Joy = Joy;
+		this.PROXIMITYTHRESHOLD = 93;
+
+		colorSensor = new ColorSensorV3(i2cPort);
 
 		addRequirements(intake);
 	}
@@ -44,7 +53,13 @@ public class Intake extends CommandBase {
 	 */
 	@Override
 	public void execute() {
-		intake.driveIntake(calculateSpeed(), polarity);
+		if ( colorSensor.getProximity() >= PROXIMITYTHRESHOLD ) {
+			intake.driveIntake(0.3, true);
+		}
+		else {
+			intake.driveIntake(calculateSpeed(), polarity);
+		}
+		
 	}
 
 	/**

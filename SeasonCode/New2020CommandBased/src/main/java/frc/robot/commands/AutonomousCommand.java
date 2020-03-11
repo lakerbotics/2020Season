@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -15,8 +14,9 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 
 /**
- * An example command that uses an example subsystem.
+ * A sequential command group which runs the autonomous commands
  */
+
 public class AutonomousCommand extends SequentialCommandGroup {
 
 	// Commands

@@ -22,7 +22,7 @@ public class IndexerGroupA extends CommandBase {
 	
 	private final IndexerSubsystem indexer;
 	private final Joystick Joy;
-	private final double INITIAL_INDEXER_SPEED = 0.55;
+	private final double INITIAL_INDEXER_SPEED = 0.9;
 	private final double SECONDARY_INDEXER_SPEED = 0.01;
 
 	private final double PROXIMITY_THRESHOLD = 93;
@@ -115,12 +115,12 @@ public class IndexerGroupA extends CommandBase {
 
 	public double calculateTime() {
 		double JoyTime = Math.abs(Joy.getY());
-		double base = 0.5;
-		if (JoyTime < 0.4) {
+		double base = 0.27;
+		if (JoyTime < 0.27) {
 			return base;
 		}
 		else {
-			return ( base - (JoyTime * 0.25));
+			return ( base - (JoyTime * 0.33 *0));
 		}
 	}
 }
