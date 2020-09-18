@@ -7,4 +7,4 @@ Lakerbotics 2020 Infinite Recharge
 - CTRE Phoenix
 
 # Contributors
-Rahul Mohan, Rayyan Shaik, Andrew Diab, and Connor Totilas.
+Rayyan Shaik, Andrew Diab, Rahul Mohan, and Connor Totilas.
